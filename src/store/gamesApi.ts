@@ -8,9 +8,38 @@ export const gamesApi = createApi({
   }),
   endpoints: (builder) => ({
     getGames: builder.query<Game[], void>({
-      query: () => "data",
+      query: () => "games",
+    }),
+    addGame: builder.mutation<void, Game>({
+      query: (game) => ({
+        url: "games",
+        method: "POST",
+        body: {
+          ...game,
+        },
+      }),
+    }),
+    removeGame: builder.mutation<void, Game>({
+      query: (game) => ({
+        url: `games/${game.id}`,
+        method: "DELETE",
+      }),
+    }),
+    markComplete: builder.mutation<void, Game>({
+      query: (game) => ({
+        method: "PATCH",
+        url: `games/${game.id}`,
+        body: {
+          ...game,
+        },
+      }),
     }),
   }),
 });
 
-export const { useGetGamesQuery } = gamesApi;
+export const {
+  useGetGamesQuery,
+  useAddGameMutation,
+  useMarkCompleteMutation,
+  useRemoveGameMutation,
+} = gamesApi;
