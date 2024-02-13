@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { gamesApi } from "./gamesApi";
+import { preferenceSlice } from "./preferenceSlice";
 
 export const store = configureStore({
   reducer: {
     [gamesApi.reducerPath]: gamesApi.reducer,
+    [preferenceSlice.name]: preferenceSlice.reducer,
   },
 
   middleware: (getDefaultMiddleware) =>
