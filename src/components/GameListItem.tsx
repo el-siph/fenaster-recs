@@ -1,5 +1,5 @@
 import { Game } from "../entities/Game";
-import { getLinkIcon } from "../functions";
+import { getLinkIcon, recByFriend } from "../functions";
 import GameImage from "./GameImage";
 
 interface Props {
@@ -7,18 +7,23 @@ interface Props {
 }
 
 const GameListItem = ({ game }: Props) => (
-  <li className="flex justify-between gap-x-6 py-5">
+  <li
+    className={`flex justify-between gap-x-6 p-5 ${
+      recByFriend(game) && "bg-cyan-200"
+    }`}
+  >
     <div className="flex min-w-0 gap-x-4">
       <GameImage game={game} />
       <div className="min-w-0 flex-auto">
-        <p className="flex flex-row justify-evenly text-sm font-semibold leading-6 text-gray-900">
+        <p className="flex flex-row text-sm font-semibold leading-6 text-gray-900">
           {game.title}{" "}
           <a className="ml-2" href={game.storeLink} target="_blank">
             {getLinkIcon(game)}
           </a>
         </p>
         <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-          Rec. by {game.recBy}
+          Rec. by <span className="italic">{game.recBy}</span>
+          {game.isSeconded && " (and others)"}
         </p>
         {game.recTo.toLowerCase() !== "both" && (
           <p className="mt-1 truncate text-xs leading-5 text-gray-500">
