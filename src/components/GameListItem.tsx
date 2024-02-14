@@ -1,65 +1,43 @@
-import { FaExternalLinkAlt, FaSteamSymbol } from "react-icons/fa";
-import { IoMdCheckmarkCircle } from "react-icons/io";
 import { Game } from "../entities/Game";
-import { recByFriend } from "../functions";
-import { useAppDispatch } from "../store/hooks";
-import { setActiveGame } from "../store/gameListSlice";
+import { getLinkIcon } from "../functions";
+import GameImage from "./GameImage";
 
 interface Props {
   game: Game;
-  isActive: boolean;
 }
 
-const GameListItem = ({ game, isActive }: Props) => {
-  const dispatch = useAppDispatch();
-
-  return (
-    <div
-      className={`h-auto p-5 border-2 shadow-md hover:shadow-lg rounded-lg cursor-zoom-in ${
-        recByFriend(game) && "bg-cyan-200"
-      } ${
-        isActive &&
-        "col-span-2 row-span-2 items-center justify-center cursor-zoom-out"
-      }`}
-      onClick={() => dispatch(setActiveGame(game))}
-    >
-      <h2 className="font-bold text-lg text-center mb-5">
-        <span className="flex flex-row justify-between">
-          {game.title}
-          <a href={game.storeLink} target="_blank">
-            {game.storeLink.includes("steampowered") ? (
-              <FaSteamSymbol />
-            ) : (
-              <FaExternalLinkAlt />
-            )}
+const GameListItem = ({ game }: Props) => (
+  <li className="flex justify-between gap-x-6 py-5">
+    <div className="flex min-w-0 gap-x-4">
+      <GameImage game={game} />
+      <div className="min-w-0 flex-auto">
+        <p className="flex flex-row justify-evenly text-sm font-semibold leading-6 text-gray-900">
+          {game.title}{" "}
+          <a className="ml-2" href={game.storeLink} target="_blank">
+            {getLinkIcon(game)}
           </a>
-        </span>
-      </h2>
-      <p className="text-md italic">{game.genre}</p>
-      <p className="text-md italic">Price: {game.msrp}</p>
-      <p className="text-md">
-        Recommended by <span className="italic">{game.recBy}</span>
-        {game.isSeconded && <span> (and others)</span>}
-      </p>
-      {isActive && (
-        <>
-          <p className="text-md">{game.userScore}</p>
-          {game.hasEnglishVO && <p className="text-md ">No English VO</p>}
-          {game.notes.length > 0 && (
-            <p className="text-md">Note: {game.notes}</p>
-          )}
-        </>
-      )}
-      {game.wasCompleted && (
-        <span className="flex flex-row align-middle">
-          <IoMdCheckmarkCircle />
-          <a className="underline" href={"#"}>
-            Watch VOD
-          </a>
-        </span>
+        </p>
+        <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+          Rec. by {game.recBy}
+        </p>
+        {game.recTo.toLowerCase() !== "both" && (
+          <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+            for {game.recTo}{" "}
+          </p>
+        )}
+      </div>
+    </div>
+    <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+      <p className="text-sm leading-6 text-gray-900">{game.genre}</p>
+      {game.msrp.toLowerCase() !== "free" ? (
+        <p className="mt-1 text-xs leading-5 text-gray-500">{game.msrp}</p>
+      ) : (
+        <div className="mt-1 flex items-center gap-x-1.5">
+          <p className="text-xs leading-5 text-gray-500 font-bold">Free</p>
+        </div>
       )}
     </div>
-  );
-};
+  </li>
+);
 
 export default GameListItem;

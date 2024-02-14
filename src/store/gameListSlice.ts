@@ -61,7 +61,7 @@ export const gameListSlice = createSlice({
     },
     removeShowRecsBy: (state, action: PayloadAction<string>) => {
       state.showRecsBy = state.showRecsBy.filter(
-        (person: string) => person !== action.payload
+        (person: string) => person !== action.payload,
       );
     },
     setShowPreferenceBar: (state, action: PayloadAction<boolean>) => {
