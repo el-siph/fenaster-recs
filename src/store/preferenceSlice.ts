@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 type DisplayType = "grid" | "table";
 type RecsToType = "aster" | "fen" | "both";
+export const FriendsOfFenAster = ["Osiria", "Kuroyuriis"];
 
 interface preferenceState {
   displayType: DisplayType;
@@ -10,15 +11,18 @@ interface preferenceState {
   showRecsTo: RecsToType;
   showRecsBy: string[];
   showPreferenceBar: boolean;
+  showOnlyFriends: boolean;
 }
 
 const initialState: preferenceState = {
   columnCount: import.meta.env.VITE_DEFAULT_COLUMNS,
   displayType: import.meta.env.VITE_DEFAULT_DISPLAY_TYPE,
-  showCompleted: import.meta.env.VITE_DEFAULT_SHOW_COMPLETED,
+  showCompleted: import.meta.env.VITE_DEFAULT_SHOW_COMPLETED === "true",
   showRecsTo: "both",
   showRecsBy: [],
-  showPreferenceBar: import.meta.env.VITE_DEFAULT_SHOW_PREFERENCE_BAR,
+  showPreferenceBar:
+    import.meta.env.VITE_DEFAULT_SHOW_PREFERENCE_BAR === "true",
+  showOnlyFriends: false,
 };
 
 export const preferenceSlice = createSlice({
@@ -55,6 +59,9 @@ export const preferenceSlice = createSlice({
     setShowPreferenceBar: (state, action: PayloadAction<boolean>) => {
       state.showPreferenceBar = action.payload;
     },
+    setShowOnlyFriends: (state, action: PayloadAction<boolean>) => {
+      state.showOnlyFriends = action.payload;
+    },
   },
 });
 
@@ -67,4 +74,5 @@ export const {
   addShowRecsBy,
   removeShowRecsBy,
   setShowPreferenceBar,
+  setShowOnlyFriends,
 } = preferenceSlice.actions;

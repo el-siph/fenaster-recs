@@ -1,14 +1,25 @@
 import { useRef } from "react";
 import { IoClose, IoSettings } from "react-icons/io5";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
-import { setColumnCount, setShowPreferenceBar } from "./store/preferenceSlice";
+import {
+  setColumnCount,
+  setShowCompleted,
+  setShowOnlyFriends,
+  setShowPreferenceBar,
+} from "./store/preferenceSlice";
 
 const PreferenceBar = () => {
-  const { columnCount, showPreferenceBar } = useAppSelector(
-    (state) => state.preference
-  );
+  const { columnCount, showPreferenceBar, showCompleted, showOnlyFriends } =
+    useAppSelector((state) => state.preference);
   const dispatch = useAppDispatch();
+
   const columnCountInput = useRef<HTMLInputElement | null>(null);
+  const showCompletedInput = useRef<HTMLInputElement | null>(null);
+  const showOnlyFriendsInput = useRef<HTMLInputElement | null>(null);
+
+  const handleShowPreferenceChange = () => {
+    dispatch(setShowPreferenceBar(!showPreferenceBar));
+  };
 
   const handleColumnCountChange = () => {
     const newColumnCount = columnCountInput?.current?.value;
@@ -16,8 +27,12 @@ const PreferenceBar = () => {
       dispatch(setColumnCount(parseInt(newColumnCount)));
   };
 
-  const handleShowPreferenceChange = () => {
-    dispatch(setShowPreferenceBar(!showPreferenceBar));
+  const handleShowCompletedChange = () => {
+    dispatch(setShowCompleted(!showCompleted));
+  };
+
+  const handleShowOnlyFriendsChange = () => {
+    dispatch(setShowOnlyFriends(!showOnlyFriends));
   };
 
   return (
@@ -29,7 +44,7 @@ const PreferenceBar = () => {
       </div>
       <div className={`flex flex-col ${!showPreferenceBar && "hidden"}`}>
         <h2>Preferences</h2>
-        <label className="flex flex-row">
+        <label className="flex flex-row justify-between">
           Columns
           <input
             ref={columnCountInput}
@@ -39,6 +54,24 @@ const PreferenceBar = () => {
             value={columnCount}
             onChange={handleColumnCountChange}
           />
+        </label>
+        <label className="flex flex-row">
+          <input
+            ref={showCompletedInput}
+            type="checkbox"
+            checked={showCompleted}
+            onChange={handleShowCompletedChange}
+          />
+          Show Completed
+        </label>
+        <label className="flex flex-row">
+          <input
+            ref={showOnlyFriendsInput}
+            type="checkbox"
+            checked={showOnlyFriends}
+            onChange={handleShowOnlyFriendsChange}
+          />
+          Only Friend Recs
         </label>
       </div>
     </>

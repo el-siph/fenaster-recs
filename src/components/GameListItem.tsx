@@ -1,6 +1,7 @@
 import { FaExternalLinkAlt, FaSteamSymbol } from "react-icons/fa";
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import { Game } from "../entities/Game";
+import { recByFriend } from "../functions";
 
 interface Props {
   game: Game;
@@ -8,7 +9,11 @@ interface Props {
 
 const GameListItem = ({ game }: Props) => {
   return (
-    <div className="h-auto p-5 border-2 shadow-md hover:shadow-lg rounded-lg cursor-pointer">
+    <div
+      className={`h-auto p-5 border-2 shadow-md hover:shadow-lg rounded-lg cursor-pointer ${
+        recByFriend(game) && "bg-cyan-200"
+      }`}
+    >
       <h2 className="font-bold text-lg text-center mb-5">
         <span className="flex flex-row justify-between">
           {game.title}
