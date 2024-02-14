@@ -56,11 +56,12 @@ export const getFilteredGames = (games: Game[]): Game[] => {
         a.genre.toLowerCase().localeCompare(b.genre.toLowerCase())
       );
       break;
-    // currently does not work
     case "price":
-      filteredGames = filteredGames.sort(
-        (a, b) => parseFloat(a.msrp) - parseFloat(b.msrp)
-      );
+      filteredGames = filteredGames.sort((a, b) => {
+        const aCost = getPriceFloat(a);
+        const bCost = getPriceFloat(b);
+        return aCost - bCost;
+      });
       break;
     default:
       filteredGames = filteredGames.sort((a, b) =>
@@ -70,6 +71,19 @@ export const getFilteredGames = (games: Game[]): Game[] => {
   }
 
   return filteredGames;
+};
+
+export const getPriceFloat = (game: Game): number => {
+  switch (game.msrp.toLowerCase()) {
+    case "free":
+      return 0.0;
+    case "varies":
+      return 0.1;
+    case "n/a":
+      return 0.2;
+    default:
+      return parseFloat(game.msrp.substring(1, game.msrp.length));
+  }
 };
 
 export const detectStorefront = (game: Game) => {
