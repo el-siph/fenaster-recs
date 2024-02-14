@@ -9,6 +9,7 @@ interface preferenceState {
   showCompleted: boolean;
   showRecsTo: RecsToType;
   showRecsBy: string[];
+  showPreferenceBar: boolean;
 }
 
 const initialState: preferenceState = {
@@ -17,6 +18,7 @@ const initialState: preferenceState = {
   showCompleted: import.meta.env.VITE_DEFAULT_SHOW_COMPLETED,
   showRecsTo: "both",
   showRecsBy: [],
+  showPreferenceBar: import.meta.env.VITE_DEFAULT_SHOW_PREFERENCE_BAR,
 };
 
 export const preferenceSlice = createSlice({
@@ -50,6 +52,9 @@ export const preferenceSlice = createSlice({
         (person: string) => person !== action.payload
       );
     },
+    setShowPreferenceBar: (state, action: PayloadAction<boolean>) => {
+      state.showPreferenceBar = action.payload;
+    },
   },
 });
 
@@ -61,4 +66,5 @@ export const {
   setShowRecsTo,
   addShowRecsBy,
   removeShowRecsBy,
+  setShowPreferenceBar,
 } = preferenceSlice.actions;
