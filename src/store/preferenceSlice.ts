@@ -4,7 +4,7 @@ type DisplayType = "grid" | "table";
 type RecsToType = "aster" | "fen" | "both";
 export const FriendsOfFenAster = ["Osiria", "Kuroyuriis"];
 
-interface preferenceState {
+export interface preferenceState {
   displayType: DisplayType;
   columnCount: number;
   showCompleted: boolean;
@@ -12,6 +12,7 @@ interface preferenceState {
   showRecsBy: string[];
   showPreferenceBar: boolean;
   showOnlyFriends: boolean;
+  searchTerm: string;
 }
 
 const initialState: preferenceState = {
@@ -23,6 +24,7 @@ const initialState: preferenceState = {
   showPreferenceBar:
     import.meta.env.VITE_DEFAULT_SHOW_PREFERENCE_BAR === "true",
   showOnlyFriends: false,
+  searchTerm: "",
 };
 
 export const preferenceSlice = createSlice({
@@ -62,6 +64,9 @@ export const preferenceSlice = createSlice({
     setShowOnlyFriends: (state, action: PayloadAction<boolean>) => {
       state.showOnlyFriends = action.payload;
     },
+    setSearchTerm: (state, action: PayloadAction<string>) => {
+      state.searchTerm = action.payload;
+    },
   },
 });
 
@@ -75,4 +80,5 @@ export const {
   removeShowRecsBy,
   setShowPreferenceBar,
   setShowOnlyFriends,
+  setSearchTerm,
 } = preferenceSlice.actions;

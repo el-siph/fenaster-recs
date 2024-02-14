@@ -3,6 +3,7 @@ import { IoClose, IoSettings } from "react-icons/io5";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import {
   setColumnCount,
+  setSearchTerm,
   setShowCompleted,
   setShowOnlyFriends,
   setShowPreferenceBar,
@@ -16,6 +17,7 @@ const PreferenceBar = () => {
   const columnCountInput = useRef<HTMLInputElement | null>(null);
   const showCompletedInput = useRef<HTMLInputElement | null>(null);
   const showOnlyFriendsInput = useRef<HTMLInputElement | null>(null);
+  const searchTermInput = useRef<HTMLInputElement | null>(null);
 
   const handleShowPreferenceChange = () => {
     dispatch(setShowPreferenceBar(!showPreferenceBar));
@@ -35,6 +37,11 @@ const PreferenceBar = () => {
     dispatch(setShowOnlyFriends(!showOnlyFriends));
   };
 
+  const handleSearchTermChange = () => {
+    const newSearchTerm = searchTermInput?.current?.value;
+    dispatch(setSearchTerm(newSearchTerm ?? ""));
+  };
+
   return (
     <>
       <div>
@@ -43,7 +50,7 @@ const PreferenceBar = () => {
         </button>
       </div>
       <div className={`flex flex-col ${!showPreferenceBar && "hidden"}`}>
-        <h2>Preferences</h2>
+        <h2>Options</h2>
         <label className="flex flex-row justify-between">
           Columns
           <input
@@ -70,6 +77,15 @@ const PreferenceBar = () => {
             type="checkbox"
             checked={showOnlyFriends}
             onChange={handleShowOnlyFriendsChange}
+          />
+          Only Friend Recs
+        </label>
+        <label className="flex flex-row">
+          <input
+            ref={searchTermInput}
+            type="text"
+            placeholder="Search by title..."
+            onChange={handleSearchTermChange}
           />
           Only Friend Recs
         </label>
