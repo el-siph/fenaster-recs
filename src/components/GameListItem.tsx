@@ -1,37 +1,25 @@
-import { FaExternalLinkAlt } from "react-icons/fa";
+import { FaExternalLinkAlt, FaSteamSymbol } from "react-icons/fa";
+import { IoMdCheckmarkCircle } from "react-icons/io";
 import { Game } from "../entities/Game";
-import { useMarkCompleteMutation } from "../store/gamesApi";
-import { useState } from "react";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { SerializedError } from "@reduxjs/toolkit";
 
 interface Props {
   game: Game;
 }
 
 const GameListItem = ({ game }: Props) => {
-  const [markComplete, markCompleteResult] = useMarkCompleteMutation();
-  const [error, setError] = useState<
-    FetchBaseQueryError | SerializedError | undefined
-  >();
-
-  const handleMarkCompleted = () => {
-    markComplete(game);
-
-    if (markCompleteResult.error) setError(markCompleteResult.error);
-  };
-
   return (
-    <div
-      className="h-auto p-5 border-2 shadow-md hover:shadow-lg rounded-lg cursor-pointer"
-      key={game.id}
-    >
+    <div className="h-auto p-5 border-2 shadow-md hover:shadow-lg rounded-lg cursor-pointer">
       <h2 className="font-bold text-lg text-center mb-5">
-        <a className="justify-between" href={game.storeLink} target="_blank">
-          <span>
-            {game.title} <FaExternalLinkAlt />
-          </span>
-        </a>
+        <span className="flex flex-row justify-between">
+          {game.title}
+          <a href={game.storeLink} target="_blank">
+            {game.storeLink.includes("steampowered") ? (
+              <FaSteamSymbol />
+            ) : (
+              <FaExternalLinkAlt />
+            )}
+          </a>
+        </span>
       </h2>
       <p className="text-md italic">{game.genre}</p>
       <p className="text-md">
@@ -41,10 +29,14 @@ const GameListItem = ({ game }: Props) => {
       <p className="text-md">{game.userScore}</p>
       {game.hasEnglishVO && <p className="text-md ">No English VO</p>}
       {game.notes.length > 0 && <p className="text-md">Note: {game.notes}</p>}
-      {error && <p>Error marking complete.</p>}
-      <button className="btn" onClick={handleMarkCompleted}>
-        Completed
-      </button>
+      {game.wasCompleted && (
+        <span className="flex flex-row align-middle">
+          <IoMdCheckmarkCircle />
+          <a className="underline" href={"#"}>
+            Watch VOD
+          </a>
+        </span>
+      )}
     </div>
   );
 };
