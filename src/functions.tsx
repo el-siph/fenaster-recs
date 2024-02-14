@@ -40,7 +40,7 @@ export const getFilteredGames = (games: Game[]): Game[] => {
   if (showOnlyFriends)
     filteredGames = filteredGames.filter((game) => recByFriend(game));
 
-  if (searchTerm.length > 3)
+  if (searchTerm.length > 1)
     filteredGames = filteredGames.filter((game) =>
       game.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
