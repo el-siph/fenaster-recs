@@ -1,11 +1,12 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { Game } from "../entities/Game";
 
 type DisplayType = "grid" | "table";
 type RecsToType = "aster" | "fen" | "both";
 export type SortByType = "title" | "genre" | "price";
 export const FriendsOfFenAster = ["Osiria", "Kuroyuriis"];
 
-export interface preferenceState {
+export interface gameListState {
   displayType: DisplayType;
   columnCount: number;
   showCompleted: boolean;
@@ -15,9 +16,10 @@ export interface preferenceState {
   showOnlyFriends: boolean;
   searchTerm: string;
   sortBy: SortByType;
+  activeGame: Game | null;
 }
 
-const initialState: preferenceState = {
+const initialState: gameListState = {
   columnCount: import.meta.env.VITE_DEFAULT_COLUMNS,
   displayType: import.meta.env.VITE_DEFAULT_DISPLAY_TYPE,
   showCompleted: import.meta.env.VITE_DEFAULT_SHOW_COMPLETED === "true",
@@ -28,10 +30,11 @@ const initialState: preferenceState = {
   showOnlyFriends: false,
   searchTerm: "",
   sortBy: import.meta.env.VITE_DEFAULT_SORT_BY,
+  activeGame: null,
 };
 
-export const preferenceSlice = createSlice({
-  name: "preference",
+export const gameListSlice = createSlice({
+  name: "gameList",
   initialState,
   reducers: {
     resetPreferences: (state) => {
@@ -73,6 +76,10 @@ export const preferenceSlice = createSlice({
     setSortBy: (state, action: PayloadAction<SortByType>) => {
       state.sortBy = action.payload;
     },
+    setActiveGame: (state, action: PayloadAction<Game>) => {
+      if (state.activeGame?.id === action.payload.id) state.activeGame = null;
+      else state.activeGame = action.payload;
+    },
   },
 });
 
@@ -88,4 +95,5 @@ export const {
   setShowOnlyFriends,
   setSearchTerm,
   setSortBy,
-} = preferenceSlice.actions;
+  setActiveGame,
+} = gameListSlice.actions;

@@ -1,5 +1,5 @@
 import { Game } from "./entities/Game";
-import { FriendsOfFenAster } from "./store/preferenceSlice";
+import { FriendsOfFenAster } from "./store/gameListSlice";
 import { store } from "./store/store";
 
 export const recByFriend = (game: Game): boolean =>
@@ -13,7 +13,7 @@ export const getFilteredGames = (games: Game[]): Game[] => {
     showOnlyFriends,
     searchTerm,
     sortBy,
-  } = store.getState().preference;
+  } = store.getState().gameList;
 
   let filteredGames = [...games];
 

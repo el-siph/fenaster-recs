@@ -6,7 +6,7 @@ import GameListItem from "./GameListItem";
 
 const GameList = () => {
   const { data, isLoading, error } = useGetGamesQuery();
-  const { columnCount } = useAppSelector((state) => state.preference);
+  const { activeGame, columnCount } = useAppSelector((state) => state.gameList);
 
   let content;
 
@@ -21,7 +21,11 @@ const GameList = () => {
       content = (
         <div className={`grid grid-cols-${columnCount} gap-3`}>
           {filteredGames?.map((game) => (
-            <GameListItem key={game.id} game={game} />
+            <GameListItem
+              key={game.id}
+              game={game}
+              isActive={game.id === activeGame?.id}
+            />
           ))}
         </div>
       );

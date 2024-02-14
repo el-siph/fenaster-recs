@@ -9,7 +9,7 @@ import {
   setShowOnlyFriends,
   setShowPreferenceBar,
   setSortBy,
-} from "./store/preferenceSlice";
+} from "./store/gameListSlice";
 
 const PreferenceBar = () => {
   const {
@@ -18,7 +18,7 @@ const PreferenceBar = () => {
     showCompleted,
     showOnlyFriends,
     sortBy,
-  } = useAppSelector((state) => state.preference);
+  } = useAppSelector((state) => state.gameList);
   const dispatch = useAppDispatch();
 
   const columnCountInput = useRef<HTMLInputElement | null>(null);

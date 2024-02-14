@@ -2,17 +2,23 @@ import { FaExternalLinkAlt, FaSteamSymbol } from "react-icons/fa";
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import { Game } from "../entities/Game";
 import { recByFriend } from "../functions";
+import { useAppDispatch } from "../store/hooks";
+import { setActiveGame } from "../store/gameListSlice";
 
 interface Props {
   game: Game;
+  isActive: boolean;
 }
 
-const GameListItem = ({ game }: Props) => {
+const GameListItem = ({ game, isActive }: Props) => {
+  const dispatch = useAppDispatch();
+
   return (
     <div
       className={`h-auto p-5 border-2 shadow-md hover:shadow-lg rounded-lg cursor-pointer ${
         recByFriend(game) && "bg-cyan-200"
-      }`}
+      } ${isActive && "row-span-2 items-center justify-center"}`}
+      onClick={() => dispatch(setActiveGame(game))}
     >
       <h2 className="font-bold text-lg text-center mb-5">
         <span className="flex flex-row justify-between">
@@ -31,9 +37,15 @@ const GameListItem = ({ game }: Props) => {
         Recommended by <span className="italic">{game.recBy}</span>
         {game.recTo && <span> (and others)</span>}
       </p>
-      <p className="text-md">{game.userScore}</p>
-      {game.hasEnglishVO && <p className="text-md ">No English VO</p>}
-      {game.notes.length > 0 && <p className="text-md">Note: {game.notes}</p>}
+      {isActive && (
+        <>
+          <p className="text-md">{game.userScore}</p>
+          {game.hasEnglishVO && <p className="text-md ">No English VO</p>}
+          {game.notes.length > 0 && (
+            <p className="text-md">Note: {game.notes}</p>
+          )}
+        </>
+      )}
       {game.wasCompleted && (
         <span className="flex flex-row align-middle">
           <IoMdCheckmarkCircle />
