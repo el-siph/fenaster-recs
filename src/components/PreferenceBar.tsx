@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { IoClose, IoSettings } from "react-icons/io5";
-import { useAppDispatch, useAppSelector } from "./store/hooks";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import {
   SortByType,
   setColumnCount,
@@ -9,10 +9,11 @@ import {
   setShowOnlyFriends,
   setShowPreferenceBar,
   setSortBy,
-} from "./store/gameListSlice";
+} from "../store/gameListSlice";
 
 const PreferenceBar = () => {
   const {
+    displayType,
     columnCount,
     showPreferenceBar,
     showCompleted,
@@ -64,17 +65,19 @@ const PreferenceBar = () => {
       </div>
       <div className={`flex flex-col ${!showPreferenceBar && "hidden"}`}>
         <h2>Options</h2>
-        <label className="flex flex-row justify-between">
-          Columns
-          <input
-            ref={columnCountInput}
-            type="number"
-            min={1}
-            max={5}
-            value={columnCount}
-            onChange={handleColumnCountChange}
-          />
-        </label>
+        {displayType === "grid" && (
+          <label className="flex flex-row justify-between">
+            Columns
+            <input
+              ref={columnCountInput}
+              type="number"
+              min={1}
+              max={5}
+              value={columnCount}
+              onChange={handleColumnCountChange}
+            />
+          </label>
+        )}
         <label className="flex flex-row">
           <input
             ref={showCompletedInput}

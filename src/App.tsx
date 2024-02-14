@@ -1,11 +1,15 @@
 import "./App.css";
-import PreferenceBar from "./PreferenceBar";
+import GameGrid from "./components/GameGrid";
 import GameList from "./components/GameList";
+import PreferenceBar from "./components/PreferenceBar";
+import { useAppSelector } from "./store/hooks";
 
 const App = () => {
+  const { displayType } = useAppSelector((state) => state.gameList);
+
   return (
-    <div className="container flex flex-row mx-auto my-10 justify-between">
-      <GameList />
+    <div className="container mx-auto my-10 flex flex-row justify-between">
+      {displayType === "grid" ? <GameGrid /> : <GameList />}
       <PreferenceBar />
     </div>
   );
