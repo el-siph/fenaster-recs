@@ -35,7 +35,7 @@ export const getFilteredGames = (games: Game[]): Game[] => {
 
   if (searchTerm.length > 3)
     filteredGames = filteredGames.filter((game) =>
-      game.title.includes(searchTerm)
+      game.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
   switch (sortBy) {
