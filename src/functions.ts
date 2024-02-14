@@ -6,8 +6,14 @@ export const recByFriend = (game: Game): boolean =>
   FriendsOfFenAster.includes(game.recBy);
 
 export const getFilteredGames = (games: Game[]): Game[] => {
-  const { showCompleted, showRecsTo, showRecsBy, showOnlyFriends, searchTerm } =
-    store.getState().preference;
+  const {
+    showCompleted,
+    showRecsTo,
+    showRecsBy,
+    showOnlyFriends,
+    searchTerm,
+    sortBy,
+  } = store.getState().preference;
 
   let filteredGames = [...games];
 
@@ -31,6 +37,29 @@ export const getFilteredGames = (games: Game[]): Game[] => {
     filteredGames = filteredGames.filter((game) =>
       game.title.includes(searchTerm)
     );
+
+  switch (sortBy) {
+    case "title":
+      filteredGames = filteredGames.sort((a, b) =>
+        a.title.toLowerCase().localeCompare(b.title.toLowerCase())
+      );
+      break;
+    case "genre":
+      filteredGames = filteredGames.sort((a, b) =>
+        a.genre.toLowerCase().localeCompare(b.genre.toLowerCase())
+      );
+      break;
+    case "price":
+      filteredGames = filteredGames.sort(
+        (a, b) => parseFloat(a.msrp) - parseFloat(b.msrp)
+      );
+      break;
+    default:
+      filteredGames = filteredGames.sort((a, b) =>
+        a.title.toLowerCase().localeCompare(b.title.toLowerCase())
+      );
+      break;
+  }
 
   return filteredGames;
 };

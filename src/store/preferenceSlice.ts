@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 type DisplayType = "grid" | "table";
 type RecsToType = "aster" | "fen" | "both";
+export type SortByType = "title" | "genre" | "price";
 export const FriendsOfFenAster = ["Osiria", "Kuroyuriis"];
 
 export interface preferenceState {
@@ -13,6 +14,7 @@ export interface preferenceState {
   showPreferenceBar: boolean;
   showOnlyFriends: boolean;
   searchTerm: string;
+  sortBy: SortByType;
 }
 
 const initialState: preferenceState = {
@@ -25,6 +27,7 @@ const initialState: preferenceState = {
     import.meta.env.VITE_DEFAULT_SHOW_PREFERENCE_BAR === "true",
   showOnlyFriends: false,
   searchTerm: "",
+  sortBy: import.meta.env.VITE_DEFAULT_SORT_BY,
 };
 
 export const preferenceSlice = createSlice({
@@ -67,6 +70,9 @@ export const preferenceSlice = createSlice({
     setSearchTerm: (state, action: PayloadAction<string>) => {
       state.searchTerm = action.payload;
     },
+    setSortBy: (state, action: PayloadAction<SortByType>) => {
+      state.sortBy = action.payload;
+    },
   },
 });
 
@@ -81,4 +87,5 @@ export const {
   setShowPreferenceBar,
   setShowOnlyFriends,
   setSearchTerm,
+  setSortBy,
 } = preferenceSlice.actions;

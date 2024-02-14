@@ -2,22 +2,30 @@ import { useRef } from "react";
 import { IoClose, IoSettings } from "react-icons/io5";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import {
+  SortByType,
   setColumnCount,
   setSearchTerm,
   setShowCompleted,
   setShowOnlyFriends,
   setShowPreferenceBar,
+  setSortBy,
 } from "./store/preferenceSlice";
 
 const PreferenceBar = () => {
-  const { columnCount, showPreferenceBar, showCompleted, showOnlyFriends } =
-    useAppSelector((state) => state.preference);
+  const {
+    columnCount,
+    showPreferenceBar,
+    showCompleted,
+    showOnlyFriends,
+    sortBy,
+  } = useAppSelector((state) => state.preference);
   const dispatch = useAppDispatch();
 
   const columnCountInput = useRef<HTMLInputElement | null>(null);
   const showCompletedInput = useRef<HTMLInputElement | null>(null);
   const showOnlyFriendsInput = useRef<HTMLInputElement | null>(null);
   const searchTermInput = useRef<HTMLInputElement | null>(null);
+  const sortBySelect = useRef<HTMLSelectElement | null>(null);
 
   const handleShowPreferenceChange = () => {
     dispatch(setShowPreferenceBar(!showPreferenceBar));
@@ -40,6 +48,11 @@ const PreferenceBar = () => {
   const handleSearchTermChange = () => {
     const newSearchTerm = searchTermInput?.current?.value;
     dispatch(setSearchTerm(newSearchTerm ?? ""));
+  };
+
+  const handleSortByChange = () => {
+    const newSortBy: SortByType = sortBySelect?.current?.value ?? "title";
+    dispatch(setSortBy(newSortBy));
   };
 
   return (
@@ -87,8 +100,12 @@ const PreferenceBar = () => {
             placeholder="Search by title..."
             onChange={handleSearchTermChange}
           />
-          Only Friend Recs
         </label>
+        <select value={sortBy} onChange={handleSortByChange} ref={sortBySelect}>
+          <option value={"title"}>Title</option>
+          <option value={"genre"}>Genre</option>
+          <option value={"price"}>Retail Price</option>
+        </select>
       </div>
     </>
   );
