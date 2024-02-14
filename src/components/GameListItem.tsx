@@ -15,9 +15,12 @@ const GameListItem = ({ game, isActive }: Props) => {
 
   return (
     <div
-      className={`h-auto p-5 border-2 shadow-md hover:shadow-lg rounded-lg cursor-pointer ${
+      className={`h-auto p-5 border-2 shadow-md hover:shadow-lg rounded-lg cursor-zoom-in ${
         recByFriend(game) && "bg-cyan-200"
-      } ${isActive && "row-span-2 items-center justify-center"}`}
+      } ${
+        isActive &&
+        "col-span-2 row-span-2 items-center justify-center cursor-zoom-out"
+      }`}
       onClick={() => dispatch(setActiveGame(game))}
     >
       <h2 className="font-bold text-lg text-center mb-5">
@@ -33,9 +36,10 @@ const GameListItem = ({ game, isActive }: Props) => {
         </span>
       </h2>
       <p className="text-md italic">{game.genre}</p>
+      <p className="text-md italic">Price: {game.msrp}</p>
       <p className="text-md">
         Recommended by <span className="italic">{game.recBy}</span>
-        {game.recTo && <span> (and others)</span>}
+        {game.isSeconded && <span> (and others)</span>}
       </p>
       {isActive && (
         <>
