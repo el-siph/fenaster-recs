@@ -11,4 +11,5 @@ export interface Game {
   notes: string;
   storeLink: string;
   wasCompleted: boolean;
+  vodLink: string;
 }
