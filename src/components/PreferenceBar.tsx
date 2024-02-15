@@ -57,14 +57,25 @@ const PreferenceBar = () => {
   };
 
   return (
-    <>
-      <div>
+    <div className="shadow w-full h-screen py-10 px-10">
+      <div className={`flex flex-row justify-start`}>
         <button onClick={handleShowPreferenceChange}>
-          {!showPreferenceBar ? <IoSettings /> : <IoClose />}
+          {!showPreferenceBar ? (
+            <span className="flex flex-row items-center gap-2 mr-2">
+              <IoSettings />
+              Settings
+            </span>
+          ) : (
+            <span className="flex flex-row items-center">
+              <IoClose />
+              Close
+            </span>
+          )}
         </button>
       </div>
-      <div className={`flex flex-col ${!showPreferenceBar && "hidden"}`}>
-        <h2>Options</h2>
+      <div
+        className={`flex flex-col gap-1 mt-5 ${!showPreferenceBar && "hidden"}`}
+      >
         {displayType === "grid" && (
           <label className="flex flex-row justify-between">
             Columns
@@ -78,18 +89,20 @@ const PreferenceBar = () => {
             />
           </label>
         )}
-        <label className="flex flex-row">
+        <label className="flex flex-row cursor-pointer">
           <input
             ref={showCompletedInput}
+            className="mr-1 cursor-pointer"
             type="checkbox"
             checked={showCompleted}
             onChange={handleShowCompletedChange}
           />
           Show Completed
         </label>
-        <label className="flex flex-row">
+        <label className="flex flex-row cursor-pointer">
           <input
             ref={showOnlyFriendsInput}
+            className="mr-1 cursor-pointer"
             type="checkbox"
             checked={showOnlyFriends}
             onChange={handleShowOnlyFriendsChange}
@@ -104,13 +117,14 @@ const PreferenceBar = () => {
             onChange={handleSearchTermChange}
           />
         </label>
+        <label>Sort By</label>
         <select value={sortBy} onChange={handleSortByChange} ref={sortBySelect}>
           <option value={"title"}>Title</option>
           <option value={"genre"}>Genre</option>
           <option value={"price"}>Retail Price</option>
         </select>
       </div>
-    </>
+    </div>
   );
 };
 
