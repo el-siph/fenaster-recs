@@ -18,6 +18,7 @@ export interface gameListState {
   sortBy: SortByType;
   activeGame: Game | null;
   useTestApi: boolean;
+  isShowingAddGameModal: boolean;
 }
 
 const initialState: gameListState = {
@@ -33,6 +34,7 @@ const initialState: gameListState = {
   sortBy: import.meta.env.VITE_DEFAULT_SORT_BY,
   activeGame: null,
   useTestApi: import.meta.env.VITE_USE_TEST_API === "true",
+  isShowingAddGameModal: false,
 };
 
 export const gameListSlice = createSlice({
@@ -82,6 +84,9 @@ export const gameListSlice = createSlice({
       if (state.activeGame?.id === action.payload.id) state.activeGame = null;
       else state.activeGame = action.payload;
     },
+    setShowingAddGameModal: (state, action: PayloadAction<boolean>) => {
+      state.isShowingAddGameModal = action.payload;
+    },
   },
 });
 
@@ -98,4 +103,5 @@ export const {
   setSearchTerm,
   setSortBy,
   setActiveGame,
+  setShowingAddGameModal,
 } = gameListSlice.actions;

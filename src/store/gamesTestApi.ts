@@ -20,7 +20,7 @@ export const gamesTestApi = createApi({
       }),
     }),
 
-    testAddGame: builder.mutation<void, Game>({
+    testAddGame: builder.mutation<void, Partial<Game>>({
       query: (game) => ({
         url: "games",
         method: "POST",

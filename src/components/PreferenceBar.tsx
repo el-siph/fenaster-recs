@@ -8,8 +8,10 @@ import {
   setShowCompleted,
   setShowOnlyFriends,
   setShowPreferenceBar,
+  setShowingAddGameModal,
   setSortBy,
 } from "../store/gameListSlice";
+import AddGameModal from "./AddGameModal";
 
 const PreferenceBar = () => {
   const {
@@ -19,6 +21,7 @@ const PreferenceBar = () => {
     showCompleted,
     showOnlyFriends,
     sortBy,
+    isShowingAddGameModal,
   } = useAppSelector((state) => state.gameList);
   const dispatch = useAppDispatch();
 
@@ -56,8 +59,23 @@ const PreferenceBar = () => {
     dispatch(setSortBy(newSortBy));
   };
 
+  const handleSuggestGameClick = () => {
+    dispatch(setShowingAddGameModal(true));
+  };
+
   return (
     <div className="shadow w-full h-screen py-10 px-10">
+      <button
+        onClick={handleSuggestGameClick}
+        className={`bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mb-5 ${
+          isShowingAddGameModal && "cursor-not-allowed opacity-50"
+        }`}
+      >
+        Suggest Game
+      </button>
+
+      <AddGameModal />
+
       <div className={`flex flex-row justify-start`}>
         <button onClick={handleShowPreferenceChange}>
           {!showPreferenceBar ? (
