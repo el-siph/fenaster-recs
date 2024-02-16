@@ -17,6 +17,7 @@ export interface gameListState {
   searchTerm: string;
   sortBy: SortByType;
   activeGame: Game | null;
+  useTestApi: boolean;
 }
 
 const initialState: gameListState = {
@@ -31,6 +32,7 @@ const initialState: gameListState = {
   searchTerm: "",
   sortBy: import.meta.env.VITE_DEFAULT_SORT_BY,
   activeGame: null,
+  useTestApi: import.meta.env.VITE_USE_TEST_API === "true",
 };
 
 export const gameListSlice = createSlice({
@@ -61,7 +63,7 @@ export const gameListSlice = createSlice({
     },
     removeShowRecsBy: (state, action: PayloadAction<string>) => {
       state.showRecsBy = state.showRecsBy.filter(
-        (person: string) => person !== action.payload,
+        (person: string) => person !== action.payload
       );
     },
     setShowPreferenceBar: (state, action: PayloadAction<boolean>) => {

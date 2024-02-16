@@ -3,13 +3,25 @@ import { Game } from "../entities/Game";
 import { Tables } from "../supabase";
 import { supabaseClient } from "../supabaseClient";
 
+interface InsertResponse {
+  status: number;
+  count: number;
+}
+
 export const gamesApi = createApi({
   reducerPath: "gamesApi",
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_API_URL,
   }),
   endpoints: (builder) => ({
-    getGames: builder.query<Tables<"games">[], void>({
+    getGames: builder.query<Game[], void>({
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "Games" as const, id })),
+              { type: "Games", id: "LIST" },
+            ]
+          : [[{ type: "Games", id: "LIST" }]],
       queryFn: async () => {
         const { data, error } = await supabaseClient
           .from("games")
@@ -19,7 +31,8 @@ export const gamesApi = createApi({
         return { data };
       },
     }),
-    addGame: builder.mutation<void, Game>({
+
+    addGame: builder.mutation<InsertResponse, Game>({
       query: (game) => ({
         url: "games",
         method: "POST",
@@ -27,6 +40,20 @@ export const gamesApi = createApi({
           ...game,
         },
       }),
+      invalidatesTags: () => [{ type: "Games" as const, id: "LIST" }],
+
+      // Supabase
+      queryFn: async (game) => {
+        const { status, count, error } = await supabaseClient
+          .from("games")
+          .insert({
+            ...(game as Tables<"games">),
+            isAuthorized: false,
+          });
+
+        if (error) throw error;
+        return { status, count };
+      },
     }),
     removeGame: builder.mutation<void, Game>({
       query: (game) => ({
