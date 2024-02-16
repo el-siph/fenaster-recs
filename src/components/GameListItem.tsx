@@ -15,7 +15,7 @@ const GameListItem = ({ game }: Props) => {
     <li
       className={`flex justify-between gap-x-6 p-5 hover:shadow transition-shadow ease-in ${
         recByFriend(game) && "bg-cyan-200"
-      }`}
+      } ${game.isAuthorized === false && "bg-gray-200 opacity-50"}`}
     >
       <div className="flex min-w-0 gap-x-4">
         <GameImage game={game} />

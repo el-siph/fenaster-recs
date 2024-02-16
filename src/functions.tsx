@@ -21,6 +21,7 @@ export const getFilteredGames = (games: Game[]): Game[] => {
     showOnlyFriends,
     searchTerm,
     sortBy,
+    isShowingUnapproved,
   } = store.getState().gameList;
 
   let filteredGames = [...games];
@@ -70,6 +71,9 @@ export const getFilteredGames = (games: Game[]): Game[] => {
       );
       break;
   }
+
+  if (!isShowingUnapproved)
+    filteredGames = filteredGames.filter((game) => game.isAuthorized !== false);
 
   return filteredGames;
 };

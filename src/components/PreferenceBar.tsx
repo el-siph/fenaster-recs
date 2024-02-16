@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import {
   SortByType,
   setColumnCount,
+  setShowingUnapproved,
   setSearchTerm,
   setShowCompleted,
   setShowOnlyFriends,
@@ -22,6 +23,7 @@ const PreferenceBar = () => {
     showOnlyFriends,
     sortBy,
     isShowingAddGameModal,
+    isShowingUnapproved,
   } = useAppSelector((state) => state.gameList);
   const dispatch = useAppDispatch();
 
@@ -61,6 +63,10 @@ const PreferenceBar = () => {
 
   const handleSuggestGameClick = () => {
     dispatch(setShowingAddGameModal(true));
+  };
+
+  const handleShowUnapprovedChange = () => {
+    dispatch(setShowingUnapproved(!isShowingUnapproved));
   };
 
   return (
@@ -125,7 +131,17 @@ const PreferenceBar = () => {
             checked={showOnlyFriends}
             onChange={handleShowOnlyFriendsChange}
           />
-          Only Friend Recs
+          Show Friend Recs Only
+        </label>
+        <label className="flex flex-row cursor-pointer">
+          <input
+            ref={showOnlyFriendsInput}
+            className="mr-1 cursor-pointer"
+            type="checkbox"
+            checked={isShowingUnapproved}
+            onChange={handleShowUnapprovedChange}
+          />
+          Show Unapproved Recs
         </label>
         <label className="flex flex-row">
           <input

@@ -19,6 +19,7 @@ export interface gameListState {
   activeGame: Game | null;
   useTestApi: boolean;
   isShowingAddGameModal: boolean;
+  isShowingUnapproved: boolean;
 }
 
 const initialState: gameListState = {
@@ -35,6 +36,7 @@ const initialState: gameListState = {
   activeGame: null,
   useTestApi: import.meta.env.VITE_USE_TEST_API === "true",
   isShowingAddGameModal: false,
+  isShowingUnapproved: false,
 };
 
 export const gameListSlice = createSlice({
@@ -87,6 +89,9 @@ export const gameListSlice = createSlice({
     setShowingAddGameModal: (state, action: PayloadAction<boolean>) => {
       state.isShowingAddGameModal = action.payload;
     },
+    setShowingUnapproved: (state, action: PayloadAction<boolean>) => {
+      state.isShowingUnapproved = action.payload;
+    },
   },
 });
 
@@ -104,4 +109,5 @@ export const {
   setSortBy,
   setActiveGame,
   setShowingAddGameModal,
+  setShowingUnapproved,
 } = gameListSlice.actions;
