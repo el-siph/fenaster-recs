@@ -1,3 +1,4 @@
+import { Game } from "../entities/Game";
 import { getFilteredGames } from "../functions";
 import { useGetGamesQuery } from "../store/gamesApi";
 import ErrorDisplay from "./ErrorDisplay";
@@ -10,8 +11,8 @@ const GameList = () => {
 
   if (isLoading) content = <div>Loading...</div>;
   else if (error) content = <ErrorDisplay error={error} />;
-  else {
-    const filteredGames = getFilteredGames(data!);
+  else if (data) {
+    const filteredGames = getFilteredGames(data as Game[]);
     content = (
       <ul role="list" className="flex flex-col divide-y divide-gray-20 shadow">
         {filteredGames?.map((game) => (
@@ -19,7 +20,7 @@ const GameList = () => {
         ))}
       </ul>
     );
-  }
+  } else content = <div>Received no data.</div>;
 
   return content;
 };
