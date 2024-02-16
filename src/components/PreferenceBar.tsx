@@ -52,8 +52,14 @@ const PreferenceBar = () => {
   };
 
   const handleSortByChange = () => {
-    const newSortBy: SortByType = sortBySelect?.current?.value ?? "title";
-    dispatch(setSortBy(newSortBy));
+    let newSortBy;
+    if (sortBySelect.current?.value.toString === SortByType.title.toString)
+      newSortBy = SortByType.title;
+    if (sortBySelect.current?.value.toString === SortByType.genre.toString)
+      newSortBy = SortByType.genre;
+    if (sortBySelect.current?.value.toString === SortByType.price.toString)
+      newSortBy = SortByType.price;
+    dispatch(setSortBy(newSortBy ?? SortByType.title));
   };
 
   const handleSuggestGameClick = () => {
@@ -139,9 +145,9 @@ const PreferenceBar = () => {
           onChange={handleSortByChange}
           ref={sortBySelect}
         >
-          <option value={"title"}>Title</option>
-          <option value={"genre"}>Genre</option>
-          <option value={"price"}>Retail Price</option>
+          <option value={SortByType.title}>Title</option>
+          <option value={SortByType.genre}>Genre</option>
+          <option value={SortByType.price}>Retail Price</option>
         </select>
         <label>
           <input

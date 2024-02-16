@@ -1,5 +1,5 @@
 import { Game } from "./entities/Game";
-import { FriendsOfFenAster } from "./store/gameListSlice";
+import { FriendsOfFenAster, SortByType } from "./store/gameListSlice";
 import { store } from "./store/store";
 import { FaExternalLinkAlt, FaSteamSymbol } from "react-icons/fa";
 import { Tables } from "./supabase";
@@ -49,17 +49,17 @@ export const getFilteredGames = (games: Game[]): Game[] => {
     );
 
   switch (sortBy) {
-    case "title":
+    case SortByType.title:
       filteredGames = filteredGames.sort((a, b) =>
         a.title.toLowerCase().localeCompare(b.title.toLowerCase())
       );
       break;
-    case "genre":
+    case SortByType.genre:
       filteredGames = filteredGames.sort((a, b) =>
         a.genre.toLowerCase().localeCompare(b.genre.toLowerCase())
       );
       break;
-    case "price":
+    case SortByType.price:
       filteredGames = filteredGames.sort((a, b) => {
         const aCost = getPriceFloat(a);
         const bCost = getPriceFloat(b);

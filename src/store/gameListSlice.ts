@@ -3,8 +3,13 @@ import { Game } from "../entities/Game";
 
 type DisplayType = "grid" | "table";
 type RecsToType = "aster" | "fen" | "both";
-export type SortByType = "title" | "genre" | "price";
 export const FriendsOfFenAster = ["Osiria", "Kuroyuriis"];
+
+export const enum SortByType {
+  "title",
+  "genre",
+  "price",
+}
 
 export interface gameListState {
   displayType: DisplayType;

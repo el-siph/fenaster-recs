@@ -1,3 +1,4 @@
+import { Game } from "../entities/Game";
 import { getFilteredGames } from "../functions";
 import { useGetGamesQuery } from "../store/gamesApi";
 import { useAppSelector } from "../store/hooks";
@@ -12,8 +13,8 @@ const GameGrid = () => {
 
   if (isLoading) content = <div>Loading...</div>;
   else if (error) content = <ErrorDisplay error={error} />;
-  else {
-    const filteredGames = getFilteredGames(data!);
+  else if (data) {
+    const filteredGames = getFilteredGames(data as Game[]);
 
     if (filteredGames.length < 1)
       content = <div className="w-3/4">No games match this criteria.</div>;
@@ -29,7 +30,7 @@ const GameGrid = () => {
           ))}
         </div>
       );
-  }
+  } else content = <div>Error loading Grid.</div>;
 
   return content;
 };

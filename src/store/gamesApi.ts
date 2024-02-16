@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Game } from "../entities/Game";
 import { Tables } from "../supabase";
@@ -14,7 +15,7 @@ export const gamesApi = createApi({
     baseUrl: import.meta.env.VITE_API_URL,
   }),
   endpoints: (builder) => ({
-    getGames: builder.query<Game[], void>({
+    getGames: builder.query<Tables<"games">[], void>({
       providesTags: (result) =>
         result
           ? [
