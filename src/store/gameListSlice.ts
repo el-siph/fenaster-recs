@@ -12,7 +12,6 @@ export interface gameListState {
   showCompleted: boolean;
   showRecsTo: RecsToType;
   showRecsBy: string[];
-  showPreferenceBar: boolean;
   showOnlyFriends: boolean;
   searchTerm: string;
   sortBy: SortByType;
@@ -20,6 +19,7 @@ export interface gameListState {
   useTestApi: boolean;
   isShowingAddGameModal: boolean;
   isShowingUnapproved: boolean;
+  sortResultsDescending: boolean;
 }
 
 const initialState: gameListState = {
@@ -28,8 +28,6 @@ const initialState: gameListState = {
   showCompleted: import.meta.env.VITE_DEFAULT_SHOW_COMPLETED === "true",
   showRecsTo: "both",
   showRecsBy: [],
-  showPreferenceBar:
-    import.meta.env.VITE_DEFAULT_SHOW_PREFERENCE_BAR === "true",
   showOnlyFriends: false,
   searchTerm: "",
   sortBy: import.meta.env.VITE_DEFAULT_SORT_BY,
@@ -37,6 +35,7 @@ const initialState: gameListState = {
   useTestApi: import.meta.env.VITE_USE_TEST_API === "true",
   isShowingAddGameModal: false,
   isShowingUnapproved: false,
+  sortResultsDescending: true,
 };
 
 export const gameListSlice = createSlice({
@@ -70,9 +69,6 @@ export const gameListSlice = createSlice({
         (person: string) => person !== action.payload
       );
     },
-    setShowPreferenceBar: (state, action: PayloadAction<boolean>) => {
-      state.showPreferenceBar = action.payload;
-    },
     setShowOnlyFriends: (state, action: PayloadAction<boolean>) => {
       state.showOnlyFriends = action.payload;
     },
@@ -92,6 +88,9 @@ export const gameListSlice = createSlice({
     setShowingUnapproved: (state, action: PayloadAction<boolean>) => {
       state.isShowingUnapproved = action.payload;
     },
+    setSortResultsDecending: (state, action: PayloadAction<boolean>) => {
+      state.sortResultsDescending = action.payload;
+    },
   },
 });
 
@@ -103,11 +102,11 @@ export const {
   setShowRecsTo,
   addShowRecsBy,
   removeShowRecsBy,
-  setShowPreferenceBar,
   setShowOnlyFriends,
   setSearchTerm,
   setSortBy,
   setActiveGame,
   setShowingAddGameModal,
   setShowingUnapproved,
+  setSortResultsDecending,
 } = gameListSlice.actions;

@@ -13,8 +13,8 @@ const GameListItem = ({ game }: Props) => {
 
   return (
     <li
-      className={`flex justify-between gap-x-6 p-5 hover:shadow transition-shadow ease-in ${
-        recByFriend(game) && "bg-cyan-200"
+      className={`flex justify-between gap-x-6 p-5 hover:shadow-lg transition-all ease-in hover:bg-gray-100 ${
+        recByFriend(game) && "bg-cyan-100 hover:bg-cyan-200"
       } ${game.isAuthorized === false && "bg-gray-200 opacity-50"}`}
     >
       <div className="flex min-w-0 gap-x-4">
@@ -22,9 +22,11 @@ const GameListItem = ({ game }: Props) => {
         <div className="min-w-0 flex-auto">
           <p className="flex flex-row items-center text-sm font-semibold leading-6 text-gray-900">
             {game.title}{" "}
-            <a className="ml-2" href={game.storeLink} target="_blank">
-              {getLinkIcon(game)}
-            </a>
+            {game.storeLink && (
+              <a className="ml-2" href={game.storeLink} target="_blank">
+                {getLinkIcon(game)}
+              </a>
+            )}
           </p>
           {game.wasCompleted && (
             <p className="flex flex-row items-center text-xs font-semibold leading-6 text-gray-900">

@@ -22,6 +22,7 @@ export const getFilteredGames = (games: Game[]): Game[] => {
     searchTerm,
     sortBy,
     isShowingUnapproved,
+    sortResultsDescending,
   } = store.getState().gameList;
 
   let filteredGames = [...games];
@@ -74,6 +75,8 @@ export const getFilteredGames = (games: Game[]): Game[] => {
 
   if (!isShowingUnapproved)
     filteredGames = filteredGames.filter((game) => game.isAuthorized !== false);
+
+  if (!sortResultsDescending) filteredGames = filteredGames.reverse();
 
   return filteredGames;
 };

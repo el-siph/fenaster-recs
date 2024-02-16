@@ -1,29 +1,28 @@
 import { useRef } from "react";
-import { IoClose, IoSettings } from "react-icons/io5";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
 import {
   SortByType,
   setColumnCount,
-  setShowingUnapproved,
   setSearchTerm,
   setShowCompleted,
   setShowOnlyFriends,
-  setShowPreferenceBar,
   setShowingAddGameModal,
+  setShowingUnapproved,
   setSortBy,
+  setSortResultsDecending,
 } from "../store/gameListSlice";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import AddGameModal from "./AddGameModal";
 
 const PreferenceBar = () => {
   const {
     displayType,
     columnCount,
-    showPreferenceBar,
     showCompleted,
     showOnlyFriends,
     sortBy,
     isShowingAddGameModal,
     isShowingUnapproved,
+    sortResultsDescending,
   } = useAppSelector((state) => state.gameList);
   const dispatch = useAppDispatch();
 
@@ -32,10 +31,6 @@ const PreferenceBar = () => {
   const showOnlyFriendsInput = useRef<HTMLInputElement | null>(null);
   const searchTermInput = useRef<HTMLInputElement | null>(null);
   const sortBySelect = useRef<HTMLSelectElement | null>(null);
-
-  const handleShowPreferenceChange = () => {
-    dispatch(setShowPreferenceBar(!showPreferenceBar));
-  };
 
   const handleColumnCountChange = () => {
     const newColumnCount = columnCountInput?.current?.value;
@@ -69,6 +64,10 @@ const PreferenceBar = () => {
     dispatch(setShowingUnapproved(!isShowingUnapproved));
   };
 
+  const handleSetSortResults = (value: string) => {
+    dispatch(setSortResultsDecending(value === "true"));
+  };
+
   return (
     <div className="shadow w-full h-screen py-10 px-10">
       <button
@@ -82,24 +81,7 @@ const PreferenceBar = () => {
 
       <AddGameModal />
 
-      <div className={`flex flex-row justify-start`}>
-        <button onClick={handleShowPreferenceChange}>
-          {!showPreferenceBar ? (
-            <span className="flex flex-row items-center gap-2 mr-2">
-              <IoSettings />
-              Settings
-            </span>
-          ) : (
-            <span className="flex flex-row items-center">
-              <IoClose />
-              Close
-            </span>
-          )}
-        </button>
-      </div>
-      <div
-        className={`flex flex-col gap-1 mt-5 ${!showPreferenceBar && "hidden"}`}
-      >
+      <div className={`flex flex-col gap-1 mt-5`}>
         {displayType === "grid" && (
           <label className="flex flex-row justify-between">
             Columns
@@ -143,20 +125,44 @@ const PreferenceBar = () => {
           />
           Show Unapproved Recs
         </label>
-        <label className="flex flex-row">
-          <input
-            ref={searchTermInput}
-            type="text"
-            placeholder="Search by title..."
-            onChange={handleSearchTermChange}
-          />
-        </label>
+        <label className="flex flex-row mt-10">Search By Title</label>
+        <input
+          ref={searchTermInput}
+          className="appearance-none block w-full text-gray-700 border border-gray-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+          type="text"
+          onChange={handleSearchTermChange}
+        />
         <label>Sort By</label>
-        <select value={sortBy} onChange={handleSortByChange} ref={sortBySelect}>
+        <select
+          className="block appearance-none bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+          value={sortBy}
+          onChange={handleSortByChange}
+          ref={sortBySelect}
+        >
           <option value={"title"}>Title</option>
           <option value={"genre"}>Genre</option>
           <option value={"price"}>Retail Price</option>
         </select>
+        <label>
+          <input
+            className="mr-1 mt-4"
+            type="radio"
+            value="true"
+            onChange={(e) => handleSetSortResults(e.target.value)}
+            checked={sortResultsDescending}
+          />
+          Descending
+        </label>
+        <label>
+          <input
+            className="mr-1"
+            type="radio"
+            value="false"
+            onChange={(e) => handleSetSortResults(e.target.value)}
+            checked={!sortResultsDescending}
+          />
+          Ascending
+        </label>
       </div>
     </div>
   );
