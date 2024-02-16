@@ -33,13 +33,6 @@ export const gamesApi = createApi({
     }),
 
     addGame: builder.mutation<InsertResponse, Partial<Game>>({
-      query: (game) => ({
-        url: "games",
-        method: "POST",
-        body: {
-          ...game,
-        },
-      }),
       invalidatesTags: () => [{ type: "Games" as const, id: "LIST" }],
 
       // Supabase
