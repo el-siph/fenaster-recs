@@ -14,7 +14,8 @@ export type Database = {
           genre: string | null
           hasEnglishVO: string | null
           id: number
-          isSeconded: string | null
+          isAuthorized: boolean
+          isSeconded: boolean | null
           msrp: string | null
           notes: string | null
           recBy: string | null
@@ -29,7 +30,8 @@ export type Database = {
           genre?: string | null
           hasEnglishVO?: string | null
           id?: number
-          isSeconded?: string | null
+          isAuthorized?: boolean
+          isSeconded?: boolean | null
           msrp?: string | null
           notes?: string | null
           recBy?: string | null
@@ -44,7 +46,8 @@ export type Database = {
           genre?: string | null
           hasEnglishVO?: string | null
           id?: number
-          isSeconded?: string | null
+          isAuthorized?: boolean
+          isSeconded?: boolean | null
           msrp?: string | null
           notes?: string | null
           recBy?: string | null

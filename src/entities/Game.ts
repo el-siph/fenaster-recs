@@ -12,4 +12,5 @@ export interface Game {
   storeLink: string | null;
   wasCompleted: boolean;
   vodLink: string;
+  isAuthorized: boolean;
 }
