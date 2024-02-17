@@ -1,30 +1,36 @@
-# React + TypeScript + Vite
+# FenAster Recs
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project hosts the games recommendations list for Fenrir and Aster aka "iamyourmagician".
 
-Currently, two official plugins are available:
+It is built in React, bundled with Vite, and written primarily in TypeScript. It uses Supabase for storing and loading data, and supports mock calls via JSON-server instance.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Deploying Locally
 
-## Expanding the ESLint configuration
+Install dependencies using the following command
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+`npm install`
 
-- Configure the top-level `parserOptions` property like this:
+and run it locally using
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
+`npm run dev`
+
+The app expects game data as an array with this schema:
+
+```
+Game {
+  id: number;
+  title: string;
+  genre: string;
+  msrp: string;
+  recBy: string;
+  recTo: string;
+  isSeconded: boolean | null;
+  userScore: string;
+  hasEnglishVO: string | boolean | null;
+  notes: string;
+  storeLink: string | null;
+  wasCompleted: boolean;
+  vodLink: string;
+  isAuthorized: boolean;
 }
 ```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
