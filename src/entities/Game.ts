@@ -5,11 +5,12 @@ export interface Game {
   msrp: string;
   recBy: string;
   recTo: string;
-  isSeconded: boolean;
+  isSeconded: boolean | null;
   userScore: string;
-  hasEnglishVO: boolean;
+  hasEnglishVO: string | boolean | null;
   notes: string;
-  storeLink: string;
+  storeLink: string | null;
   wasCompleted: boolean;
   vodLink: string;
+  isAuthorized: boolean;
 }

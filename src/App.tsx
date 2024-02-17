@@ -5,16 +5,13 @@ import PreferenceBar from "./components/PreferenceBar";
 import { useAppSelector } from "./store/hooks";
 
 const App = () => {
-  const { displayType, showPreferenceBar } = useAppSelector(
-    (state) => state.gameList
-  );
+  const { displayType } = useAppSelector((state) => state.gameList);
 
   return (
     <div className="container mx-auto my-10">
       <div className="w-3/4">
         {displayType === "grid" ? <GameGrid /> : <GameList />}
       </div>
-      {/* <div className="col-span-1">&nbsp;</div> */}
       <div className={`fixed right-0 top-0 w-1/4`}>
         <PreferenceBar />
       </div>

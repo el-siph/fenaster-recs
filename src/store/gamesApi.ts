@@ -1,5 +1,13 @@
+// @ts-nocheck
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Game } from "../entities/Game";
+import { Tables } from "../supabase";
+import { supabaseClient } from "../supabaseClient";
+
+interface InsertResponse {
+  status: number;
+  count: number;
+}
 
 export const gamesApi = createApi({
   reducerPath: "gamesApi",
@@ -7,17 +15,39 @@ export const gamesApi = createApi({
     baseUrl: import.meta.env.VITE_API_URL,
   }),
   endpoints: (builder) => ({
-    getGames: builder.query<Game[], void>({
-      query: () => "games",
+    getGames: builder.query<Tables<"games">[], void>({
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "Games" as const, id })),
+              { type: "Games", id: "LIST" },
+            ]
+          : [[{ type: "Games", id: "LIST" }]],
+      queryFn: async () => {
+        const { data, error } = await supabaseClient
+          .from("games")
+          .select()
+          .returns<Tables<"games">[]>();
+        if (error) throw error;
+        return { data };
+      },
     }),
-    addGame: builder.mutation<void, Game>({
-      query: (game) => ({
-        url: "games",
-        method: "POST",
-        body: {
-          ...game,
-        },
-      }),
+
+    addGame: builder.mutation<InsertResponse, Partial<Game>>({
+      invalidatesTags: () => [{ type: "Games" as const, id: "LIST" }],
+
+      // Supabase
+      queryFn: async (game) => {
+        const { status, count, error } = await supabaseClient
+          .from("games")
+          .insert({
+            ...(game as Tables<"games">),
+            isAuthorized: false,
+          });
+
+        if (error) throw error;
+        return { status, count };
+      },
     }),
     removeGame: builder.mutation<void, Game>({
       query: (game) => ({

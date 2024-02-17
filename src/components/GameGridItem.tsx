@@ -25,9 +25,11 @@ const GameGridItem = ({ game, isActive }: Props) => {
       <h2 className="mb-5 text-center text-lg font-bold">
         <span className="flex flex-row justify-between">
           {game.title}
-          <a href={game.storeLink} target="_blank">
-            {getLinkIcon(game)}
-          </a>
+          {game.storeLink && (
+            <a href={game.storeLink} target="_blank">
+              {getLinkIcon(game)}
+            </a>
+          )}
         </span>
       </h2>
       <p className="text-md italic">{game.genre}</p>

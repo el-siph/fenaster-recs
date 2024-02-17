@@ -1,17 +1,24 @@
+import { Game } from "../entities/Game";
 import { getFilteredGames } from "../functions";
 import { useGetGamesQuery } from "../store/gamesApi";
+import { useTestGetGamesQuery } from "../store/gamesTestApi";
+import { useAppSelector } from "../store/hooks";
 import ErrorDisplay from "./ErrorDisplay";
 import GameListItem from "./GameListItem";
+import LoadingSymbol from "./LoadingSymbol";
 
 const GameList = () => {
-  const { data, isLoading, error } = useGetGamesQuery();
+  const useTestApi = useAppSelector((state) => state.gameList.useTestApi);
+  const { data, isLoading, error } = useTestApi
+    ? useTestGetGamesQuery()
+    : useGetGamesQuery();
 
   let content;
 
-  if (isLoading) content = <div>Loading...</div>;
+  if (isLoading) content = <LoadingSymbol />;
   else if (error) content = <ErrorDisplay error={error} />;
-  else {
-    const filteredGames = getFilteredGames(data!);
+  else if (data) {
+    const filteredGames = getFilteredGames(data as Game[]);
     content = (
       <ul role="list" className="flex flex-col divide-y divide-gray-20 shadow">
         {filteredGames?.map((game) => (
@@ -19,7 +26,7 @@ const GameList = () => {
         ))}
       </ul>
     );
-  }
+  } else content = <div>Received no data.</div>;
 
   return content;
 };

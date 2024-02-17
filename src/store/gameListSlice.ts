@@ -3,8 +3,13 @@ import { Game } from "../entities/Game";
 
 type DisplayType = "grid" | "table";
 type RecsToType = "aster" | "fen" | "both";
-export type SortByType = "title" | "genre" | "price";
 export const FriendsOfFenAster = ["Osiria", "Kuroyuriis"];
+
+export const enum SortByType {
+  "title",
+  "genre",
+  "price",
+}
 
 export interface gameListState {
   displayType: DisplayType;
@@ -12,11 +17,14 @@ export interface gameListState {
   showCompleted: boolean;
   showRecsTo: RecsToType;
   showRecsBy: string[];
-  showPreferenceBar: boolean;
   showOnlyFriends: boolean;
   searchTerm: string;
   sortBy: SortByType;
   activeGame: Game | null;
+  useTestApi: boolean;
+  isShowingAddGameModal: boolean;
+  isShowingUnapproved: boolean;
+  sortResultsDescending: boolean;
 }
 
 const initialState: gameListState = {
@@ -25,12 +33,14 @@ const initialState: gameListState = {
   showCompleted: import.meta.env.VITE_DEFAULT_SHOW_COMPLETED === "true",
   showRecsTo: "both",
   showRecsBy: [],
-  showPreferenceBar:
-    import.meta.env.VITE_DEFAULT_SHOW_PREFERENCE_BAR === "true",
   showOnlyFriends: false,
   searchTerm: "",
   sortBy: import.meta.env.VITE_DEFAULT_SORT_BY,
   activeGame: null,
+  useTestApi: import.meta.env.VITE_USE_TEST_API === "true",
+  isShowingAddGameModal: false,
+  isShowingUnapproved: false,
+  sortResultsDescending: true,
 };
 
 export const gameListSlice = createSlice({
@@ -61,11 +71,8 @@ export const gameListSlice = createSlice({
     },
     removeShowRecsBy: (state, action: PayloadAction<string>) => {
       state.showRecsBy = state.showRecsBy.filter(
-        (person: string) => person !== action.payload,
+        (person: string) => person !== action.payload
       );
-    },
-    setShowPreferenceBar: (state, action: PayloadAction<boolean>) => {
-      state.showPreferenceBar = action.payload;
     },
     setShowOnlyFriends: (state, action: PayloadAction<boolean>) => {
       state.showOnlyFriends = action.payload;
@@ -80,6 +87,15 @@ export const gameListSlice = createSlice({
       if (state.activeGame?.id === action.payload.id) state.activeGame = null;
       else state.activeGame = action.payload;
     },
+    setShowingAddGameModal: (state, action: PayloadAction<boolean>) => {
+      state.isShowingAddGameModal = action.payload;
+    },
+    setShowingUnapproved: (state, action: PayloadAction<boolean>) => {
+      state.isShowingUnapproved = action.payload;
+    },
+    setSortResultsDecending: (state, action: PayloadAction<boolean>) => {
+      state.sortResultsDescending = action.payload;
+    },
   },
 });
 
@@ -91,9 +107,11 @@ export const {
   setShowRecsTo,
   addShowRecsBy,
   removeShowRecsBy,
-  setShowPreferenceBar,
   setShowOnlyFriends,
   setSearchTerm,
   setSortBy,
   setActiveGame,
+  setShowingAddGameModal,
+  setShowingUnapproved,
+  setSortResultsDecending,
 } = gameListSlice.actions;
