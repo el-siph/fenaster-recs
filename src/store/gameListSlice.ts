@@ -2,13 +2,18 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Game } from "../entities/Game";
 
 type DisplayType = "grid" | "table";
-type RecsToType = "aster" | "fen" | "both";
 export const FriendsOfFenAster = ["Osiria", "Kuroyuriis"];
 
 export const enum SortByType {
   "title",
   "genre",
   "price",
+}
+
+export const enum RecsToType {
+  both = "both",
+  aster = "aster",
+  fen = "fen",
 }
 
 export interface gameListState {
@@ -31,7 +36,7 @@ const initialState: gameListState = {
   columnCount: import.meta.env.VITE_DEFAULT_COLUMNS,
   displayType: import.meta.env.VITE_DEFAULT_DISPLAY_TYPE,
   showCompleted: import.meta.env.VITE_DEFAULT_SHOW_COMPLETED === "true",
-  showRecsTo: "both",
+  showRecsTo: RecsToType.both,
   showRecsBy: [],
   showOnlyFriends: false,
   searchTerm: "",

@@ -1,10 +1,12 @@
 import { useRef } from "react";
 import {
+  RecsToType,
   SortByType,
   setColumnCount,
   setSearchTerm,
   setShowCompleted,
   setShowOnlyFriends,
+  setShowRecsTo,
   setShowingAddGameModal,
   setShowingUnapproved,
   setSortBy,
@@ -23,6 +25,7 @@ const PreferenceBar = () => {
     isShowingAddGameModal,
     isShowingUnapproved,
     sortResultsDescending,
+    showRecsTo,
   } = useAppSelector((state) => state.gameList);
   const dispatch = useAppDispatch();
 
@@ -31,6 +34,7 @@ const PreferenceBar = () => {
   const showOnlyFriendsInput = useRef<HTMLInputElement | null>(null);
   const searchTermInput = useRef<HTMLInputElement | null>(null);
   const sortBySelect = useRef<HTMLSelectElement | null>(null);
+  const recToSelect = useRef<HTMLSelectElement | null>(null);
 
   const handleColumnCountChange = () => {
     const newColumnCount = columnCountInput?.current?.value;
@@ -53,13 +57,33 @@ const PreferenceBar = () => {
 
   const handleSortByChange = () => {
     let newSortBy;
-    if (sortBySelect.current?.value.toString === SortByType.title.toString)
+    if (sortBySelect.current?.value?.toString() === SortByType.title.toString())
       newSortBy = SortByType.title;
-    if (sortBySelect.current?.value.toString === SortByType.genre.toString)
+    if (sortBySelect.current?.value?.toString() === SortByType.genre.toString())
       newSortBy = SortByType.genre;
-    if (sortBySelect.current?.value.toString === SortByType.price.toString)
+    if (sortBySelect.current?.value?.toString() === SortByType.price.toString())
       newSortBy = SortByType.price;
     dispatch(setSortBy(newSortBy ?? SortByType.title));
+  };
+
+  const handleRecsByChange = () => {
+    let newRecTo;
+    if (
+      recToSelect.current?.value?.toLowerCase().toString() ===
+      RecsToType.both.toLowerCase().toString()
+    )
+      newRecTo = RecsToType.both;
+    else if (
+      recToSelect.current?.value?.toLowerCase().toString() ===
+      RecsToType.aster.toLowerCase().toString()
+    )
+      newRecTo = RecsToType.aster;
+    else if (
+      recToSelect.current?.value?.toLowerCase().toString() ===
+      RecsToType.fen.toLowerCase().toString()
+    )
+      newRecTo = RecsToType.fen;
+    dispatch(setShowRecsTo(newRecTo ?? RecsToType.both));
   };
 
   const handleSuggestGameClick = () => {
@@ -138,6 +162,17 @@ const PreferenceBar = () => {
           type="text"
           onChange={handleSearchTermChange}
         />
+        <label>Suggestions for</label>
+        <select
+          className="block appearance-none bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+          value={showRecsTo}
+          onChange={handleRecsByChange}
+          ref={recToSelect}
+        >
+          <option value={RecsToType.both}>Both</option>
+          <option value={RecsToType.aster}>Aster</option>
+          <option value={RecsToType.fen}>Fenrir</option>
+        </select>
         <label>Sort By</label>
         <select
           className="block appearance-none bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"

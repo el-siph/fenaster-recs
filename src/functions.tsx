@@ -1,5 +1,9 @@
 import { Game } from "./entities/Game";
-import { FriendsOfFenAster, SortByType } from "./store/gameListSlice";
+import {
+  FriendsOfFenAster,
+  RecsToType,
+  SortByType,
+} from "./store/gameListSlice";
 import { store } from "./store/store";
 import { FaExternalLinkAlt, FaSteamSymbol } from "react-icons/fa";
 import { Tables } from "./supabase";
@@ -30,10 +34,22 @@ export const getFilteredGames = (games: Game[]): Game[] => {
   if (!showCompleted)
     filteredGames = filteredGames.filter((game) => !game.wasCompleted);
 
-  if (showRecsTo !== "both")
-    filteredGames = filteredGames.filter((game) =>
-      showRecsTo.includes(game.recTo)
-    );
+  switch (showRecsTo) {
+    case RecsToType.both:
+      break;
+    case RecsToType.aster:
+      filteredGames = filteredGames.filter((game) =>
+        game.recTo.toLowerCase().includes(RecsToType.aster.toString())
+      );
+      break;
+    case RecsToType.fen:
+      filteredGames = filteredGames.filter((game) =>
+        game.recTo.toLowerCase().includes(RecsToType.fen.toString())
+      );
+      break;
+    default:
+      break;
+  }
 
   if (showRecsBy.length > 0)
     filteredGames = filteredGames.filter((game) =>
