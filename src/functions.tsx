@@ -102,7 +102,7 @@ const fetchSteamStoreLinkTitle = async (game: Game) => {
   if (detectStorefront(game) !== Storefronts.Steam) return false;
 
   try {
-    const url = `https://cors-anywhere.herokuapp.com/${game.storeLink}`;
+    const url = `${import.meta.env.VITE_CORS_PROXY}/${game.storeLink}`;
     const metadata = await urlMetadata(url, {
       requestHeaders: {
         origin: import.meta.env.VITE_ORIGIN_URL,
