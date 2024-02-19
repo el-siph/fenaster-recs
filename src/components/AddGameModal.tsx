@@ -30,6 +30,8 @@ const AddGameModal = () => {
   };
 
   const handleSubmit = () => {
+    const autoApproveSymbol = import.meta.env.VITE_AUTO_APPROVE_SYMBOL;
+
     const newGame: Partial<Game> = {
       title: titleRef.current?.value,
       genre: genreRef.current?.value,
@@ -45,6 +47,9 @@ const AddGameModal = () => {
       vodLink: "",
       isAuthorized: false,
     };
+    newGame.isAuthorized =
+      newGame.recBy?.substring(0, 1) === autoApproveSymbol ? true : false;
+
     addGame(newGame);
     dispatch(setShowingAddGameModal(false));
   };
