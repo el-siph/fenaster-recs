@@ -47,8 +47,11 @@ const AddGameModal = () => {
       vodLink: "",
       isAuthorized: false,
     };
-    newGame.isAuthorized =
-      newGame.recBy?.substring(0, 1) === autoApproveSymbol ? true : false;
+
+    if (newGame.recBy?.substring(0, 1) === autoApproveSymbol) {
+      newGame.isAuthorized = true;
+      newGame.recBy = newGame.recBy?.substring(1, newGame.recBy.length);
+    }
 
     addGame(newGame);
     dispatch(setShowingAddGameModal(false));
