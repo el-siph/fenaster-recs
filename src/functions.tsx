@@ -124,7 +124,7 @@ export const fetchDiscount = async (game: Game) => {
     stringArr = stringArr[1].split("%");
     const discountPercent = parseFloat(stringArr[0]) / 100;
     const newMSPR = (getPriceFloat(game) * (1 - discountPercent)).toFixed(2);
-    return newMSPR;
+    return parseFloat(newMSPR);
   }
 };
 
