@@ -7,6 +7,7 @@ import {
 import { store } from "./store/store";
 import { FaExternalLinkAlt, FaSteamSymbol } from "react-icons/fa";
 import { Tables } from "./supabase";
+import urlMetadata from "url-metadata";
 
 export const enum Storefronts {
   Steam,
@@ -95,6 +96,36 @@ export const getFilteredGames = (games: Game[]): Game[] => {
   if (!sortResultsDescending) filteredGames = filteredGames.reverse();
 
   return filteredGames;
+};
+
+const fetchSteamStoreLinkTitle = async (game: Game) => {
+  if (detectStorefront(game) !== Storefronts.Steam) return false;
+
+  try {
+    const url = `https://cors-anywhere.herokuapp.com/${game.storeLink}`;
+    const metadata = await urlMetadata(url, {
+      requestHeaders: {
+        origin: import.meta.env.VITE_ORIGIN_URL,
+      },
+    });
+    return metadata.title;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
+
+export const fetchDiscount = async (game: Game) => {
+  const title = await fetchSteamStoreLinkTitle(game);
+  if (!title) return false;
+  else if (!title.includes("Save ")) return false;
+  else {
+    let stringArr = title.split("Save ");
+    stringArr = stringArr[1].split("%");
+    const discountPercent = parseFloat(stringArr[0]) / 100;
+    const newMSPR = getPriceFloat(game) * discountPercent;
+    return newMSPR;
+  }
 };
 
 export const getPriceFloat = (game: Game): number => {
