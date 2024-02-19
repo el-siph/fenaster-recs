@@ -78,6 +78,9 @@ const GameListItem = ({ game }: Props) => {
               for {game.recTo}{" "}
             </p>
           )}
+          <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+            {game.userScore}
+          </p>
           {showNotes && game.notes?.length > 0 && (
             <p className="mt-1 truncate text-xs leading-5 text-gray-500">
               Note: {game.notes}{" "}
