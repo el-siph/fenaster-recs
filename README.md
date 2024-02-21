@@ -2,7 +2,7 @@
 
 This project hosts the games recommendations list for Fenrir and Aster aka "iamyourmagician".
 
-It is built in React, bundled with Vite, and written primarily in TypeScript. It uses Supabase for storing and loading data, and supports mock calls via JSON-server instance.
+It is built in React, utilizes Redux & RTK Query for state-management, bundles with Vite, incorporates TailwindCSS for styling, and is written primarily in TypeScript. It uses Supabase for storing and loading data, and supports mock calls via JSON-server instance.  An instance is currently running on: https://fenaster-recs.netlify.app/
 
 # Deploying Locally
 
@@ -34,3 +34,5 @@ Game {
   isAuthorized: boolean;
 }
 ```
+
+For fetching discounted items on Steam, a CORS-everywhere instance needs to be connected as an environment vairable.  Read more: https://github.com/Rob--W/cors-anywhere
