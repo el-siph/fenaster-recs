@@ -8,7 +8,6 @@ import {
   setShowOnlyFriends,
   setShowRecsTo,
   setShowingAddGameModal,
-  setShowingUnapproved,
   setSortBy,
   setSortResultsDecending,
 } from "../store/gameListSlice";
@@ -23,7 +22,6 @@ const PreferenceBar = () => {
     showOnlyFriends,
     sortBy,
     isShowingAddGameModal,
-    isShowingUnapproved,
     sortResultsDescending,
     showRecsTo,
   } = useAppSelector((state) => state.gameList);
@@ -88,10 +86,6 @@ const PreferenceBar = () => {
 
   const handleSuggestGameClick = () => {
     dispatch(setShowingAddGameModal(true));
-  };
-
-  const handleShowUnapprovedChange = () => {
-    dispatch(setShowingUnapproved(!isShowingUnapproved));
   };
 
   const handleSetSortResults = (value: string) => {

@@ -122,6 +122,7 @@ const filterGamesByDisplayTab = (
     //   break;
     default:
       games = games.filter((game) => game.isAuthorized);
+      
       break;
   }
 
