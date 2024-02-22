@@ -16,6 +16,12 @@ export const enum RecsToType {
   fen = "fen",
 }
 
+export const enum DisplayTabs {
+  approved,
+  pending,
+  onSale,
+}
+
 export interface gameListState {
   displayType: DisplayType;
   columnCount: number;
@@ -30,6 +36,7 @@ export interface gameListState {
   isShowingAddGameModal: boolean;
   isShowingUnapproved: boolean;
   sortResultsDescending: boolean;
+  currentDisplayTab: DisplayTabs;
 }
 
 const initialState: gameListState = {
@@ -46,6 +53,7 @@ const initialState: gameListState = {
   isShowingAddGameModal: false,
   isShowingUnapproved: false,
   sortResultsDescending: true,
+  currentDisplayTab: DisplayTabs.approved,
 };
 
 export const gameListSlice = createSlice({
@@ -76,7 +84,7 @@ export const gameListSlice = createSlice({
     },
     removeShowRecsBy: (state, action: PayloadAction<string>) => {
       state.showRecsBy = state.showRecsBy.filter(
-        (person: string) => person !== action.payload
+        (person: string) => person !== action.payload,
       );
     },
     setShowOnlyFriends: (state, action: PayloadAction<boolean>) => {
@@ -101,6 +109,9 @@ export const gameListSlice = createSlice({
     setSortResultsDecending: (state, action: PayloadAction<boolean>) => {
       state.sortResultsDescending = action.payload;
     },
+    setCurrentDisplayTab: (state, action: PayloadAction<DisplayTabs>) => {
+      state.currentDisplayTab = action.payload;
+    },
   },
 });
 
@@ -119,4 +130,5 @@ export const {
   setShowingAddGameModal,
   setShowingUnapproved,
   setSortResultsDecending,
+  setCurrentDisplayTab,
 } = gameListSlice.actions;

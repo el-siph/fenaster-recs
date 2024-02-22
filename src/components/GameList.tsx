@@ -19,13 +19,21 @@ const GameList = () => {
   else if (error) content = <ErrorDisplay error={error} />;
   else if (data) {
     const filteredGames = getFilteredGames(data as Game[]);
-    content = (
-      <ul role="list" className="flex flex-col divide-y divide-gray-20 shadow">
-        {filteredGames?.map((game) => (
-          <GameListItem game={game} key={game.id} />
-        ))}
-      </ul>
-    );
+    if (filteredGames.length > 0)
+      content = (
+        <ul
+          role="list"
+          className="divide-gray-20 flex flex-col divide-y shadow"
+        >
+          {filteredGames?.map((game) => (
+            <GameListItem game={game} key={game.id} />
+          ))}
+        </ul>
+      );
+    else
+      content = (
+        <div className="text-center">No games match your criteria.</div>
+      );
   } else content = <div>Received no data.</div>;
 
   return content;
