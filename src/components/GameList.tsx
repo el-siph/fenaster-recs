@@ -20,7 +20,7 @@ const GameList = () => {
   else if (data) {
     const filteredGames = getFilteredGames(data as Game[]);
     content = (
-      <ul role="list" className="flex flex-col divide-y divide-gray-20 shadow">
+      <ul role="list" className="divide-gray-20 flex flex-col divide-y shadow">
         {filteredGames?.map((game) => (
           <GameListItem game={game} key={game.id} />
         ))}
