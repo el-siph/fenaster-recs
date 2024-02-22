@@ -99,10 +99,10 @@ const PreferenceBar = () => {
   };
 
   return (
-    <div className="shadow w-full h-screen py-10 px-10">
+    <div className="h-screen w-full px-10 py-10 shadow">
       <button
         onClick={handleSuggestGameClick}
-        className={`bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mb-5 ${
+        className={`mb-5 rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100 ${
           isShowingAddGameModal && "cursor-not-allowed opacity-50"
         }`}
       >
@@ -111,7 +111,7 @@ const PreferenceBar = () => {
 
       <AddGameModal />
 
-      <div className={`flex flex-col gap-1 mt-5`}>
+      <div className={`mt-5 flex flex-col gap-1`}>
         {displayType === "grid" && (
           <label className="flex flex-row justify-between">
             Columns
@@ -125,7 +125,7 @@ const PreferenceBar = () => {
             />
           </label>
         )}
-        <label className="flex flex-row cursor-pointer">
+        <label className="flex cursor-pointer flex-row">
           <input
             ref={showCompletedInput}
             className="mr-1 cursor-pointer"
@@ -135,7 +135,7 @@ const PreferenceBar = () => {
           />
           Show Completed
         </label>
-        <label className="flex flex-row cursor-pointer">
+        <label className="flex cursor-pointer flex-row">
           <input
             ref={showOnlyFriendsInput}
             className="mr-1 cursor-pointer"
@@ -145,26 +145,16 @@ const PreferenceBar = () => {
           />
           Show Friend Recs Only
         </label>
-        <label className="flex flex-row cursor-pointer">
-          <input
-            ref={showOnlyFriendsInput}
-            className="mr-1 cursor-pointer"
-            type="checkbox"
-            checked={isShowingUnapproved}
-            onChange={handleShowUnapprovedChange}
-          />
-          Show Unapproved Recs
-        </label>
-        <label className="flex flex-row mt-10">Search By Title</label>
+        <label className="mt-10 flex flex-row">Search By Title</label>
         <input
           ref={searchTermInput}
-          className="appearance-none block w-full text-gray-700 border border-gray-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+          className="mb-3 block w-full appearance-none rounded border border-gray-500 px-4 py-3 leading-tight text-gray-700 focus:bg-white focus:outline-none"
           type="text"
           onChange={handleSearchTermChange}
         />
         <label>Suggestions for</label>
         <select
-          className="block appearance-none bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+          className="focus:shadow-outline block appearance-none rounded border border-gray-400 bg-white px-4 py-2 pr-8 leading-tight shadow hover:border-gray-500 focus:outline-none"
           value={showRecsTo}
           onChange={handleRecsByChange}
           ref={recToSelect}
@@ -175,7 +165,7 @@ const PreferenceBar = () => {
         </select>
         <label>Sort By</label>
         <select
-          className="block appearance-none bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+          className="focus:shadow-outline block appearance-none rounded border border-gray-400 bg-white px-4 py-2 pr-8 leading-tight shadow hover:border-gray-500 focus:outline-none"
           value={sortBy}
           onChange={handleSortByChange}
           ref={sortBySelect}
