@@ -28,9 +28,9 @@ const GameListItem = ({ game }: Props) => {
 
   return (
     <li
-      className={`flex justify-between gap-x-6 p-5 hover:shadow-lg transition-all ease-in hover:bg-gray-100 ${
+      className={`flex justify-between gap-x-6 p-5 transition-all ease-in hover:bg-gray-100 hover:shadow-lg ${
         recByFriend(game) && "bg-cyan-100 hover:bg-cyan-200"
-      } ${game.isAuthorized === false && "bg-gray-200 opacity-50"}`}
+      }`}
     >
       <div className="flex min-w-0 gap-x-4">
         <GameImage game={game} />
@@ -64,7 +64,7 @@ const GameListItem = ({ game }: Props) => {
                   className="flex flex-row"
                   target="_blank"
                 >
-                  <span className="underline ml-1">(Watch)</span>
+                  <span className="ml-1 underline">(Watch)</span>
                 </a>
               )}
             </p>
@@ -85,7 +85,7 @@ const GameListItem = ({ game }: Props) => {
             <p className="mt-1 truncate text-xs leading-5 text-gray-500">
               Note: {game.notes}{" "}
               <span
-                className="underline cursor-pointer text-gray-700"
+                className="cursor-pointer text-gray-700 underline"
                 onClick={() => setShowNotes(false)}
               >
                 Hide Note
@@ -94,7 +94,7 @@ const GameListItem = ({ game }: Props) => {
           )}
           {!showNotes && game.notes?.length > 0 && (
             <p
-              className="mt-1 text-xs leading-5 text-gray-700 cursor-pointer underline"
+              className="mt-1 cursor-pointer text-xs leading-5 text-gray-700 underline"
               onClick={() => setShowNotes(true)}
             >
               Show Note
@@ -115,7 +115,7 @@ const GameListItem = ({ game }: Props) => {
               </span>
               {discountAmount && (
                 <span
-                  className={`ml-1 mt-1 text-xs leading-5 text-green-500 bold`}
+                  className={`bold ml-1 mt-1 text-xs leading-5 text-green-500`}
                 >
                   ${discountAmount}
                 </span>
@@ -124,7 +124,7 @@ const GameListItem = ({ game }: Props) => {
           </>
         ) : (
           <div className="mt-1 flex items-center gap-x-1.5">
-            <p className="text-xs leading-5 text-gray-500 font-bold">Free</p>
+            <p className="text-xs font-bold leading-5 text-gray-500">Free</p>
           </div>
         )}
       </div>
