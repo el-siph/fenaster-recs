@@ -1,5 +1,6 @@
 import { Game } from "../entities/Game";
 import { getFilteredGames } from "../functions";
+import { DisplayTabs } from "../store/gameListSlice";
 import { useGetGamesQuery } from "../store/gamesApi";
 import { useTestGetGamesQuery } from "../store/gamesTestApi";
 import { useAppSelector } from "../store/hooks";
@@ -9,17 +10,26 @@ import LoadingSymbol from "./LoadingSymbol";
 
 const GameList = () => {
   const useTestApi = useAppSelector((state) => state.gameList.useTestApi);
-  const { data, isLoading, error } = useTestApi
-    ? useTestGetGamesQuery()
-    : useGetGamesQuery();
+  const {
+    data: games,
+    isLoading: isLoadingGames,
+    error: isErrorGames,
+  } = useTestApi ? useTestGetGamesQuery() : useGetGamesQuery();
+
+  const { currentDisplayTab } = useAppSelector((state) => state.gameList);
 
   let content;
 
-  if (isLoading) content = <LoadingSymbol />;
-  else if (error) content = <ErrorDisplay error={error} />;
-  else if (data) {
-    const filteredGames = getFilteredGames(data as Game[]);
-    if (filteredGames.length > 0)
+  if (isLoadingGames) content = <LoadingSymbol />;
+  else if (isErrorGames) content = <ErrorDisplay error={isErrorGames} />;
+  else if (games) {
+    let filteredGames = getFilteredGames(games as Game[]);
+
+    if (currentDisplayTab === DisplayTabs.onSale) {
+      filteredGames = filteredGames.filter((game) => game.discounts !== null);
+    }
+
+    if (filteredGames.length > 0) {
       content = (
         <ul
           role="list"
@@ -30,7 +40,7 @@ const GameList = () => {
           ))}
         </ul>
       );
-    else
+    } else
       content = (
         <div className="text-center">No games match your criteria.</div>
       );

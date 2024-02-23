@@ -1,3 +1,5 @@
+import { FaExternalLinkAlt, FaSteamSymbol } from "react-icons/fa";
+import urlMetadata from "url-metadata";
 import { Game } from "./entities/Game";
 import {
   DisplayTabs,
@@ -6,9 +8,7 @@ import {
   SortByType,
 } from "./store/gameListSlice";
 import { store } from "./store/store";
-import { FaExternalLinkAlt, FaSteamSymbol } from "react-icons/fa";
 import { Tables } from "./supabase";
-import urlMetadata from "url-metadata";
 
 export const enum Storefronts {
   Steam,
@@ -41,12 +41,12 @@ export const getFilteredGames = (games: Game[]): Game[] => {
       break;
     case RecsToType.aster:
       filteredGames = filteredGames.filter((game) =>
-        game.recTo.toLowerCase().includes(RecsToType.aster.toString()),
+        game.recTo.toLowerCase().includes(RecsToType.aster.toString())
       );
       break;
     case RecsToType.fen:
       filteredGames = filteredGames.filter((game) =>
-        game.recTo.toLowerCase().includes(RecsToType.fen.toString()),
+        game.recTo.toLowerCase().includes(RecsToType.fen.toString())
       );
       break;
     default:
@@ -55,7 +55,7 @@ export const getFilteredGames = (games: Game[]): Game[] => {
 
   if (showRecsBy.length > 0)
     filteredGames = filteredGames.filter((game) =>
-      showRecsBy.includes(game.recBy),
+      showRecsBy.includes(game.recBy)
     );
 
   if (showOnlyFriends)
@@ -63,18 +63,18 @@ export const getFilteredGames = (games: Game[]): Game[] => {
 
   if (searchTerm.length > 1)
     filteredGames = filteredGames.filter((game) =>
-      game.title.toLowerCase().includes(searchTerm.toLowerCase()),
+      game.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
   switch (sortBy) {
     case SortByType.title:
       filteredGames = filteredGames.sort((a, b) =>
-        a.title.toLowerCase().localeCompare(b.title.toLowerCase()),
+        a.title.toLowerCase().localeCompare(b.title.toLowerCase())
       );
       break;
     case SortByType.genre:
       filteredGames = filteredGames.sort((a, b) =>
-        a.genre.toLowerCase().localeCompare(b.genre.toLowerCase()),
+        a.genre.toLowerCase().localeCompare(b.genre!.toLowerCase())
       );
       break;
     case SortByType.price:
@@ -86,7 +86,7 @@ export const getFilteredGames = (games: Game[]): Game[] => {
       break;
     default:
       filteredGames = filteredGames.sort((a, b) =>
-        a.title.toLowerCase().localeCompare(b.title.toLowerCase()),
+        a.title.toLowerCase().localeCompare(b.title.toLowerCase())
       );
       break;
   }
@@ -100,7 +100,7 @@ export const getFilteredGames = (games: Game[]): Game[] => {
 
 export const getFilteredGameCount = (
   tabName: DisplayTabs,
-  games: Game[] | null,
+  games: Game[] | null
 ): number => {
   if (games) return filterGamesByDisplayTab(tabName, games).length;
   else return 0;
@@ -108,7 +108,7 @@ export const getFilteredGameCount = (
 
 const filterGamesByDisplayTab = (
   tabName: DisplayTabs,
-  games: Game[],
+  games: Game[]
 ): Game[] => {
   switch (tabName) {
     case DisplayTabs.approved:
@@ -117,12 +117,11 @@ const filterGamesByDisplayTab = (
     case DisplayTabs.pending:
       games = games.filter((game) => !game.isAuthorized);
       break;
-    // case DisplayTabs.onSale:
-    //   filteredGames = filteredGames.filter((game) => !game.isAuthorized);
-    //   break;
+    case DisplayTabs.onSale:
+      games = games.filter((game) => game.isAuthorized);
+      break;
     default:
       games = games.filter((game) => game.isAuthorized);
-      
       break;
   }
 

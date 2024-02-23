@@ -9,13 +9,21 @@ interface InsertResponse {
   count: number;
 }
 
+const gamesWithDiscountsQuery = supabaseClient.from("games").select(`
+  *,
+  discounts (
+    discountPercent,
+    lastChecked
+  )
+`);
+
 export const gamesApi = createApi({
   reducerPath: "gamesApi",
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_API_URL,
   }),
   endpoints: (builder) => ({
-    getGames: builder.query<Tables<"games">[], void>({
+    getGames: builder.query<Game[], void>({
       providesTags: (result) =>
         result
           ? [
@@ -24,15 +32,11 @@ export const gamesApi = createApi({
             ]
           : [[{ type: "Games", id: "LIST" }]],
       queryFn: async () => {
-        const { data, error } = await supabaseClient
-          .from("games")
-          .select()
-          .returns<Tables<"games">[]>();
+        const { data, error } = await gamesWithDiscountsQuery;
         if (error) throw error;
         return { data };
       },
     }),
-
     addGame: builder.mutation<InsertResponse, Partial<Game>>({
       invalidatesTags: () => [{ type: "Games" as const, id: "LIST" }],
 

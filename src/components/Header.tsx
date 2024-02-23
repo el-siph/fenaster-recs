@@ -14,7 +14,7 @@ interface navItem {
 const navigation = [
   { name: "Approved", tabName: DisplayTabs.approved, disabled: false },
   { name: "Pending", tabName: DisplayTabs.pending, disabled: false },
-  { name: "On Sale", tabName: DisplayTabs.onSale, disabled: true },
+  { name: "On Sale", tabName: DisplayTabs.onSale, disabled: false },
 ] as navItem[];
 
 function classNames(...classes: string[]) {
@@ -58,7 +58,7 @@ const Header = () => {
                           "rounded-md px-3 py-2 text-sm font-medium",
                           isItemDisabled(item)
                             ? "cursor-not-allowed opacity-50"
-                            : "opacity-100",
+                            : "opacity-100"
                         )}
                       >
                         {item.name}

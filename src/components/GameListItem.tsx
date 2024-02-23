@@ -81,7 +81,7 @@ const GameListItem = ({ game }: Props) => {
           <p className="mt-1 truncate text-xs leading-5 text-gray-500">
             {game.userScore}
           </p>
-          {showNotes && game.notes?.length > 0 && (
+          {showNotes && game.notes && (
             <p className="mt-1 truncate text-xs leading-5 text-gray-500">
               Note: {game.notes}{" "}
               <span
@@ -92,7 +92,7 @@ const GameListItem = ({ game }: Props) => {
               </span>
             </p>
           )}
-          {!showNotes && game.notes?.length > 0 && (
+          {!showNotes && game.notes && (
             <p
               className="mt-1 cursor-pointer text-xs leading-5 text-gray-700 underline"
               onClick={() => setShowNotes(true)}
