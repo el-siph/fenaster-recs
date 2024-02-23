@@ -1,12 +1,12 @@
 import { Game } from "../entities/Game";
 import { getFilteredGames } from "../functions";
-import { useGetGamesQuery } from "../store/gamesApi";
+import useFetchGames from "../hooks/useFetchGames";
 import { useAppSelector } from "../store/hooks";
 import ErrorDisplay from "./ErrorDisplay";
 import GameGridItem from "./GameGridItem";
 
 const GameGrid = () => {
-  const { data, isLoading, error } = useGetGamesQuery();
+  const { data, isLoading, error } = useFetchGames();
   const { activeGame, columnCount } = useAppSelector((state) => state.gameList);
 
   let content;

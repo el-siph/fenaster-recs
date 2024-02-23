@@ -1,9 +1,9 @@
 import { Disclosure } from "@headlessui/react";
+import { Game } from "../entities/Game";
+import { getFilteredGameCount } from "../functions";
+import useFetchGames from "../hooks/useFetchGames";
 import { DisplayTabs, setCurrentDisplayTab } from "../store/gameListSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { getFilteredGameCount } from "../functions";
-import { useGetGamesQuery } from "../store/gamesApi";
-import { Game } from "../entities/Game";
 
 interface navItem {
   name: string;
@@ -22,8 +22,8 @@ function classNames(...classes: string[]) {
 }
 
 const Header = () => {
+  const { data: games } = useFetchGames();
   const { currentDisplayTab } = useAppSelector((state) => state.gameList);
-  const { data: games } = useGetGamesQuery();
   const dispatch = useAppDispatch();
 
   const handleDisplayTabChange = (newTab: DisplayTabs) => {

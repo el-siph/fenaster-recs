@@ -1,20 +1,18 @@
 import { Game } from "../entities/Game";
 import { getFilteredGames } from "../functions";
+import useFetchGames from "../hooks/useFetchGames";
 import { DisplayTabs } from "../store/gameListSlice";
-import { useGetGamesQuery } from "../store/gamesApi";
-import { useTestGetGamesQuery } from "../store/gamesTestApi";
 import { useAppSelector } from "../store/hooks";
 import ErrorDisplay from "./ErrorDisplay";
 import GameListItem from "./GameListItem";
 import LoadingSymbol from "./LoadingSymbol";
 
 const GameList = () => {
-  const useTestApi = useAppSelector((state) => state.gameList.useTestApi);
   const {
     data: games,
     isLoading: isLoadingGames,
     error: isErrorGames,
-  } = useTestApi ? useTestGetGamesQuery() : useGetGamesQuery();
+  } = useFetchGames();
 
   const { currentDisplayTab } = useAppSelector((state) => state.gameList);
 
