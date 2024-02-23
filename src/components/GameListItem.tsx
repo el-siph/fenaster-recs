@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { Game } from "../entities/Game";
-import { calculateDiscount, getLinkIcon, recByFriend } from "../helpers";
+import {
+  calculateDiscount,
+  getLinkIcon,
+  isDiscountValid,
+  recByFriend,
+} from "../helpers";
 import GameImage from "./GameImage";
 
 interface Props {
@@ -85,11 +90,11 @@ const GameListItem = ({ game }: Props) => {
             <p className="mt-1 text-xs leading-5 text-gray-500">
               <span
                 className={`
-                ${game.discounts && "line-through"}`}
+                ${isDiscountValid(game) && "line-through"}`}
               >
                 {game.msrp}
               </span>
-              {game.discounts && (
+              {isDiscountValid(game) && (
                 <span
                   className={`bold ml-1 mt-1 text-xs leading-5 text-green-500`}
                 >

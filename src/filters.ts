@@ -1,5 +1,5 @@
 import { Game } from "./entities/Game";
-import { getPriceFloat, recByFriend } from "./helpers";
+import { getPriceFloat, isDiscountValid, recByFriend } from "./helpers";
 import { DisplayTabs, RecsToType, SortByType } from "./store/gameListSlice";
 import { store } from "./store/store";
 
@@ -112,7 +112,7 @@ const filterGamesByDisplayTab = (
       games = games.filter((game) => !game.isAuthorized);
       break;
     case DisplayTabs.onSale:
-      games = games.filter((game) => game.discounts);
+      games = games.filter((game) => isDiscountValid(game));
       break;
     default:
       games = games.filter((game) => game.isAuthorized);

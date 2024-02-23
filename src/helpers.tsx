@@ -57,3 +57,16 @@ export const calculateDiscount = (game: Game) => {
     2
   );
 };
+
+export const isDiscountValid = (game: Game): boolean => {
+  if (!game.discounts) return false;
+  const lastCheckedDate = game.discounts.lastChecked;
+  return isWithinLast24Hours(new Date(lastCheckedDate));
+};
+
+function isWithinLast24Hours(date: Date): boolean {
+  const staleHourCount = import.meta.env.VITE_STALE_HOUR_COUNT;
+  const oneDayInMillis = staleHourCount * 60 * 60 * 1000;
+  const now = Date.now();
+  return now - date.getTime() < oneDayInMillis;
+}

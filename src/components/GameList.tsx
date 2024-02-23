@@ -1,5 +1,6 @@
 import { Game } from "../entities/Game";
 import { getFilteredGames } from "../filters";
+import { isDiscountValid } from "../helpers";
 import useFetchGames from "../hooks/useFetchGames";
 import { DisplayTabs } from "../store/gameListSlice";
 import { useAppSelector } from "../store/hooks";
@@ -24,7 +25,7 @@ const GameList = () => {
     let filteredGames = getFilteredGames(games as Game[]);
 
     if (currentDisplayTab === DisplayTabs.onSale) {
-      filteredGames = filteredGames.filter((game) => game.discounts !== null);
+      filteredGames = filteredGames.filter((game) => isDiscountValid(game));
     }
 
     if (filteredGames.length > 0) {
