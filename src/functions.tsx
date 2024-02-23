@@ -1,5 +1,4 @@
 import { FaExternalLinkAlt, FaSteamSymbol } from "react-icons/fa";
-import urlMetadata from "url-metadata";
 import { Game } from "./entities/Game";
 import {
   DisplayTabs,
@@ -8,7 +7,6 @@ import {
   SortByType,
 } from "./store/gameListSlice";
 import { store } from "./store/store";
-import { Tables } from "./types/supabase";
 
 export const enum Storefronts {
   Steam,
@@ -128,36 +126,6 @@ const filterGamesByDisplayTab = (
   return games;
 };
 
-const fetchSteamStoreLinkTitle = async (game: Game) => {
-  if (detectStorefront(game) !== Storefronts.Steam) return false;
-
-  try {
-    const url = `${import.meta.env.VITE_CORS_PROXY}/${game.storeLink}`;
-    const metadata = await urlMetadata(url, {
-      requestHeaders: {
-        origin: import.meta.env.VITE_ORIGIN_URL,
-      },
-    });
-    return metadata.title;
-  } catch (err) {
-    console.error(err);
-    return null;
-  }
-};
-
-export const fetchDiscount = async (game: Game) => {
-  const title = await fetchSteamStoreLinkTitle(game);
-  if (!title) return false;
-  else if (!title.includes("Save ")) return false;
-  else {
-    let stringArr = title.split("Save ");
-    stringArr = stringArr[1].split("%");
-    const discountPercent = parseFloat(stringArr[0]) / 100;
-    const newMSPR = (getPriceFloat(game) * (1 - discountPercent)).toFixed(2);
-    return parseFloat(newMSPR);
-  }
-};
-
 export const getPriceFloat = (game: Game): number => {
   switch (game.msrp.toLowerCase()) {
     case "free":
@@ -197,12 +165,6 @@ export const getGameImageUrl = (game: Game): string | null => {
   if (detectStorefront(game) === Storefronts.Steam)
     return `https://cdn.cloudflare.steamstatic.com/steam/apps/${steamId}/header.jpg`;
   return null;
-};
-
-export const convertGamesTableToGameArray = (data: Tables<"games">[]) => {
-  const games: Game[] = [];
-  data.map((entry) => games.push(entry as Game));
-  return games;
 };
 
 export const calculateDiscount = (game: Game) => {
