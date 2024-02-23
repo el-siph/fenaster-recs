@@ -1,5 +1,5 @@
 import { Game } from "../entities/Game";
-import { getFilteredGames } from "../functions";
+import { getFilteredGames } from "../filters";
 import useFetchGames from "../hooks/useFetchGames";
 import { useAppSelector } from "../store/hooks";
 import ErrorDisplay from "./ErrorDisplay";

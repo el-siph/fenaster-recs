@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { Game } from "../entities/Game";
-import { calculateDiscount, getLinkIcon, recByFriend } from "../functions";
+import { calculateDiscount, getLinkIcon, recByFriend } from "../helpers";
 import GameImage from "./GameImage";
 
 interface Props {

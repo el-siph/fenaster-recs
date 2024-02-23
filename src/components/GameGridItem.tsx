@@ -1,6 +1,6 @@
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import { Game } from "../entities/Game";
-import { getLinkIcon, recByFriend } from "../functions";
+import { getLinkIcon, recByFriend } from "../helpers";
 import { useAppDispatch } from "../store/hooks";
 import { setActiveGame } from "../store/gameListSlice";
 

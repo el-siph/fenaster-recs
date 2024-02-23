@@ -1,9 +1,9 @@
 import { Disclosure } from "@headlessui/react";
 import { Game } from "../entities/Game";
-import { getFilteredGameCount } from "../functions";
 import useFetchGames from "../hooks/useFetchGames";
 import { DisplayTabs, setCurrentDisplayTab } from "../store/gameListSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { getFilteredGameCount } from "../filters";
 
 interface navItem {
   name: string;
