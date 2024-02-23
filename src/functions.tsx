@@ -118,7 +118,7 @@ const filterGamesByDisplayTab = (
       games = games.filter((game) => !game.isAuthorized);
       break;
     case DisplayTabs.onSale:
-      games = games.filter((game) => game.isAuthorized);
+      games = games.filter((game) => game.discounts);
       break;
     default:
       games = games.filter((game) => game.isAuthorized);
@@ -203,4 +203,10 @@ export const convertGamesTableToGameArray = (data: Tables<"games">[]) => {
   const games: Game[] = [];
   data.map((entry) => games.push(entry as Game));
   return games;
+};
+
+export const calculateDiscount = (game: Game) => {
+  return (getPriceFloat(game) * (1 - game.discounts.discountPercent)).toFixed(
+    2
+  );
 };
