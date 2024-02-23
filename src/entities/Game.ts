@@ -1,4 +1,4 @@
-import { Tables } from "../supabase";
+import { Tables } from "../types/supabase";
 
 export interface Game extends Tables<"games"> {
   discounts: {

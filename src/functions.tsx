@@ -8,7 +8,7 @@ import {
   SortByType,
 } from "./store/gameListSlice";
 import { store } from "./store/store";
-import { Tables } from "./supabase";
+import { Tables } from "./types/supabase";
 
 export const enum Storefronts {
   Steam,
