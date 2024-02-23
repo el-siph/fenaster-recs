@@ -1,9 +1,9 @@
 import { Disclosure } from "@headlessui/react";
+import { Game } from "../entities/Game";
+import useFetchGames from "../hooks/useFetchGames";
 import { DisplayTabs, setCurrentDisplayTab } from "../store/gameListSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { getFilteredGameCount } from "../functions";
-import { useGetGamesQuery } from "../store/gamesApi";
-import { Game } from "../entities/Game";
+import { getFilteredGameCount } from "../filters";
 
 interface navItem {
   name: string;
@@ -14,7 +14,7 @@ interface navItem {
 const navigation = [
   { name: "Approved", tabName: DisplayTabs.approved, disabled: false },
   { name: "Pending", tabName: DisplayTabs.pending, disabled: false },
-  { name: "On Sale", tabName: DisplayTabs.onSale, disabled: true },
+  { name: "On Sale", tabName: DisplayTabs.onSale, disabled: false },
 ] as navItem[];
 
 function classNames(...classes: string[]) {
@@ -22,8 +22,8 @@ function classNames(...classes: string[]) {
 }
 
 const Header = () => {
+  const { data: games } = useFetchGames();
   const { currentDisplayTab } = useAppSelector((state) => state.gameList);
-  const { data: games } = useGetGamesQuery();
   const dispatch = useAppDispatch();
 
   const handleDisplayTabChange = (newTab: DisplayTabs) => {
@@ -58,7 +58,7 @@ const Header = () => {
                           "rounded-md px-3 py-2 text-sm font-medium",
                           isItemDisabled(item)
                             ? "cursor-not-allowed opacity-50"
-                            : "opacity-100",
+                            : "opacity-100"
                         )}
                       >
                         {item.name}

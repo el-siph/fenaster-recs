@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Game } from "../entities/Game";
 
@@ -7,6 +6,7 @@ export const gamesTestApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_API_URL,
   }),
+  tagTypes: ["Games"],
   endpoints: (builder) => ({
     testGetGames: builder.query<Game[], void>({
       providesTags: (result) =>
@@ -15,7 +15,7 @@ export const gamesTestApi = createApi({
               ...result.map(({ id }) => ({ type: "Games" as const, id })),
               { type: "Games", id: "LIST" },
             ]
-          : [[{ type: "Games", id: "LIST" }]],
+          : [{ type: "Games", id: "LIST" }],
       query: () => ({
         url: "games",
       }),

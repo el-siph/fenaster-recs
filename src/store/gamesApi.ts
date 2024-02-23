@@ -1,7 +1,6 @@
-// @ts-nocheck
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Game } from "../entities/Game";
-import { Tables } from "../supabase";
+import { Tables } from "../types/supabase";
 import { supabaseClient } from "../supabaseClient";
 
 interface InsertResponse {
@@ -11,32 +10,40 @@ interface InsertResponse {
 
 export const gamesApi = createApi({
   reducerPath: "gamesApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_API_URL,
-  }),
+  baseQuery: fetchBaseQuery(),
+  tagTypes: ["Games"],
   endpoints: (builder) => ({
-    getGames: builder.query<Tables<"games">[], void>({
+    getGames: builder.query<Game[], void>({
       providesTags: (result) =>
         result
           ? [
               ...result.map(({ id }) => ({ type: "Games" as const, id })),
               { type: "Games", id: "LIST" },
             ]
-          : [[{ type: "Games", id: "LIST" }]],
+          : [{ type: "Games", id: "LIST" }],
+
+      // @ts-expect-error
       queryFn: async () => {
         const { data, error } = await supabaseClient
           .from("games")
-          .select()
-          .returns<Tables<"games">[]>();
-        if (error) throw error;
-        return { data };
+          .select(
+            `
+          *,
+          discounts (
+            discountPercent,
+            lastChecked
+          )
+        `
+          )
+          .returns<Game[]>();
+        if (error) return { error };
+        return await { data, error };
       },
     }),
-
     addGame: builder.mutation<InsertResponse, Partial<Game>>({
       invalidatesTags: () => [{ type: "Games" as const, id: "LIST" }],
 
-      // Supabase
+      // @ts-expect-error
       queryFn: async (game) => {
         const { status, count, error } = await supabaseClient
           .from("games")

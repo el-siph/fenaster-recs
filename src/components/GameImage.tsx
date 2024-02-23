@@ -1,5 +1,5 @@
 import { Game } from "../entities/Game";
-import { getGameImageUrl } from "../functions";
+import { getGameImageUrl } from "../helpers";
 
 interface Props {
   game: Game;

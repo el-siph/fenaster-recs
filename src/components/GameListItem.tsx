@@ -1,10 +1,13 @@
 import { useState } from "react";
-import { Game } from "../entities/Game";
-import { fetchDiscount, getLinkIcon, recByFriend } from "../functions";
-import GameImage from "./GameImage";
 import { FaCheckCircle } from "react-icons/fa";
-import { CiDiscount1 } from "react-icons/ci";
-import { TbDiscount2Off, TbDiscountCheckFilled } from "react-icons/tb";
+import { Game } from "../entities/Game";
+import {
+  calculateDiscount,
+  getLinkIcon,
+  isDiscountValid,
+  recByFriend,
+} from "../helpers";
+import GameImage from "./GameImage";
 
 interface Props {
   game: Game;
@@ -12,19 +15,6 @@ interface Props {
 
 const GameListItem = ({ game }: Props) => {
   const [showNotes, setShowNotes] = useState<boolean>(false);
-  const [discountAmount, setDiscountAmount] = useState<number | null>(null);
-  const [hasCheckedForDiscount, setHasCheckedForDiscount] =
-    useState<boolean>(false);
-
-  const handleFetchDiscount = async () => {
-    if (!hasCheckedForDiscount) {
-      const discountAmount = await fetchDiscount(game);
-      if (discountAmount) {
-        setDiscountAmount(discountAmount);
-      }
-      setHasCheckedForDiscount(true);
-    }
-  };
 
   return (
     <li
@@ -42,15 +32,6 @@ const GameListItem = ({ game }: Props) => {
                 <a className="ml-2" href={game.storeLink} target="_blank">
                   {getLinkIcon(game)}
                 </a>
-                {hasCheckedForDiscount && discountAmount && (
-                  <TbDiscountCheckFilled />
-                )}
-                {hasCheckedForDiscount && !discountAmount && <TbDiscount2Off />}
-                {!hasCheckedForDiscount && (
-                  <button onClick={handleFetchDiscount}>
-                    <CiDiscount1 />
-                  </button>
-                )}
               </>
             )}
           </p>
@@ -81,7 +62,7 @@ const GameListItem = ({ game }: Props) => {
           <p className="mt-1 truncate text-xs leading-5 text-gray-500">
             {game.userScore}
           </p>
-          {showNotes && game.notes?.length > 0 && (
+          {showNotes && game.notes && (
             <p className="mt-1 truncate text-xs leading-5 text-gray-500">
               Note: {game.notes}{" "}
               <span
@@ -92,7 +73,7 @@ const GameListItem = ({ game }: Props) => {
               </span>
             </p>
           )}
-          {!showNotes && game.notes?.length > 0 && (
+          {!showNotes && game.notes && (
             <p
               className="mt-1 cursor-pointer text-xs leading-5 text-gray-700 underline"
               onClick={() => setShowNotes(true)}
@@ -109,15 +90,15 @@ const GameListItem = ({ game }: Props) => {
             <p className="mt-1 text-xs leading-5 text-gray-500">
               <span
                 className={`
-                ${discountAmount && "line-through"}`}
+                ${isDiscountValid(game) && "line-through"}`}
               >
                 {game.msrp}
               </span>
-              {discountAmount && (
+              {isDiscountValid(game) && (
                 <span
                   className={`bold ml-1 mt-1 text-xs leading-5 text-green-500`}
                 >
-                  ${discountAmount}
+                  ${calculateDiscount(game)}
                 </span>
               )}
             </p>

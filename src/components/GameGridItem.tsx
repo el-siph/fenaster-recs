@@ -1,6 +1,6 @@
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import { Game } from "../entities/Game";
-import { getLinkIcon, recByFriend } from "../functions";
+import { getLinkIcon, recByFriend } from "../helpers";
 import { useAppDispatch } from "../store/hooks";
 import { setActiveGame } from "../store/gameListSlice";
 
@@ -42,9 +42,7 @@ const GameGridItem = ({ game, isActive }: Props) => {
         <>
           <p className="text-md">{game.userScore}</p>
           {game.hasEnglishVO && <p className="text-md ">No English VO</p>}
-          {game.notes.length > 0 && (
-            <p className="text-md">Note: {game.notes}</p>
-          )}
+          {game.notes && <p className="text-md">Note: {game.notes}</p>}
         </>
       )}
       {game.wasCompleted && (

@@ -9,7 +9,87 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      discounts: {
+        Row: {
+          discountPercent: number
+          gameId: number
+          id: number
+          lastChecked: string
+        }
+        Insert: {
+          discountPercent?: number
+          gameId: number
+          id?: number
+          lastChecked?: string
+        }
+        Update: {
+          discountPercent?: number
+          gameId?: number
+          id?: number
+          lastChecked?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_discounts_gameId_fkey"
+            columns: ["gameId"]
+            isOneToOne: true
+            referencedRelation: "games"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       games: {
+        Row: {
+          genre: string
+          hasEnglishVO: string | null
+          id: number
+          isAuthorized: boolean
+          isSeconded: boolean | null
+          msrp: string
+          notes: string | null
+          recBy: string
+          recTo: string
+          storeLink: string | null
+          title: string
+          userScore: string | null
+          vodLink: string | null
+          wasCompleted: boolean
+        }
+        Insert: {
+          genre: string
+          hasEnglishVO?: string | null
+          id?: number
+          isAuthorized?: boolean
+          isSeconded?: boolean | null
+          msrp: string
+          notes?: string | null
+          recBy: string
+          recTo: string
+          storeLink?: string | null
+          title: string
+          userScore?: string | null
+          vodLink?: string | null
+          wasCompleted?: boolean
+        }
+        Update: {
+          genre?: string
+          hasEnglishVO?: string | null
+          id?: number
+          isAuthorized?: boolean
+          isSeconded?: boolean | null
+          msrp?: string
+          notes?: string | null
+          recBy?: string
+          recTo?: string
+          storeLink?: string | null
+          title?: string
+          userScore?: string | null
+          vodLink?: string | null
+          wasCompleted?: boolean
+        }
+        Relationships: []
+      }
+      games_duplicate: {
         Row: {
           genre: string | null
           hasEnglishVO: string | null
