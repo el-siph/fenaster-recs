@@ -9,14 +9,6 @@ interface InsertResponse {
   count: number;
 }
 
-const gamesWithDiscountsQuery = supabaseClient.from("games").select(`
-  *,
-  discounts (
-    discountPercent,
-    lastChecked
-  )
-`);
-
 export const gamesApi = createApi({
   reducerPath: "gamesApi",
   baseQuery: fetchBaseQuery({
@@ -32,7 +24,13 @@ export const gamesApi = createApi({
             ]
           : [[{ type: "Games", id: "LIST" }]],
       queryFn: async () => {
-        const { data, error } = await gamesWithDiscountsQuery;
+        const { data, error } = await supabaseClient.from("games").select(`
+          *,
+          discounts (
+            discountPercent,
+            lastChecked
+          )
+        `);
         if (error) throw error;
         return { data };
       },
