@@ -22,7 +22,7 @@ const App = () => {
           {displayType === "grid" ? <GameGrid /> : <GameList />}
         </div>
       </div>
-      <div className={`hidden sm:fixed right-0 top-0 sm:w-1/4`}>
+      <div className={`hidden sm:block sm:fixed right-0 top-0 sm:w-1/4`}>
         <PreferenceBar />
       </div>
     </div>
