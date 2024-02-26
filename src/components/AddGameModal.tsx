@@ -5,6 +5,7 @@ import { setShowingAddGameModal } from "../store/gameListSlice";
 import { useTestAddGameMutation } from "../store/gamesTestApi";
 import { useAddGameMutation } from "../store/gamesApi";
 import { Game } from "../entities/Game";
+import { notifyToaster } from "../helpers";
 
 const AddGameModal = () => {
   const dispatch = useAppDispatch();
@@ -55,6 +56,8 @@ const AddGameModal = () => {
 
     addGame(newGame);
     dispatch(setShowingAddGameModal(false));
+
+    notifyToaster("Your suggestion has been added!");
   };
 
   const handleCancel = () => {

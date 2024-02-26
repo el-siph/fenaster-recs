@@ -1,12 +1,15 @@
 import { FaExternalLinkAlt, FaSteamSymbol } from "react-icons/fa";
 import { Game } from "./entities/Game";
 import { FriendsOfFenAster } from "./store/gameListSlice";
+import toast from "react-hot-toast";
 
 export const enum Storefronts {
   Steam,
   Epic,
   Other,
 }
+
+export const notifyToaster = (msg: string) => toast(msg);
 
 export const recByFriend = (game: Game): boolean =>
   FriendsOfFenAster.includes(game.recBy);
