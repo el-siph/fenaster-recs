@@ -49,7 +49,6 @@ export const gamesApi = createApi({
           .from("games")
           .insert({
             ...(game as Tables<"games">),
-            isAuthorized: false,
           });
 
         if (error) throw error;
