@@ -1,29 +1,14 @@
 import { Disclosure } from "@headlessui/react";
+import { classNames, navItem, navigation } from "../constants";
 import { Game } from "../entities/Game";
-import useFetchGames from "../hooks/useFetchGames";
+import { getFilteredGameCount } from "../filters";
 import { DisplayTabs, setCurrentDisplayTab } from "../store/gameListSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { getFilteredGameCount } from "../filters";
-
-interface navItem {
-  name: string;
-  tabName: DisplayTabs;
-  disabled: boolean;
-}
-
-const navigation = [
-  { name: "Approved", tabName: DisplayTabs.approved, disabled: false },
-  { name: "Pending", tabName: DisplayTabs.pending, disabled: false },
-  { name: "On Sale", tabName: DisplayTabs.onSale, disabled: false },
-] as navItem[];
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
+import useFetchGames from "../hooks/useFetchGames";
 
 const Header = () => {
-  const { data: games } = useFetchGames();
   const { currentDisplayTab } = useAppSelector((state) => state.gameList);
+  const { data: games } = useFetchGames();
   const dispatch = useAppDispatch();
 
   const handleDisplayTabChange = (newTab: DisplayTabs) => {
