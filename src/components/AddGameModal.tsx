@@ -105,9 +105,11 @@ const AddGameModal = () => {
                         className="text-base font-semibold leading-6 text-gray-900 mb-4 sm:mb-10"
                       >
                         Suggest a Game
+                        <p className="text-sm text-gray-400 font-normal mb-1"></p>
                         <p className="text-sm text-gray-400 font-normal">
                           Your suggestion will be subject to review before
-                          approval.
+                          approval. Please ensure your game complies with Twitch
+                          TOS and refrains from hateful subject matter.
                         </p>
                       </Dialog.Title>
                       <div className="mt-2">
