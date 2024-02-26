@@ -6,7 +6,6 @@ import Header from "./components/Header";
 import HeaderMobile from "./components/HeaderMobile";
 import PreferenceBar from "./components/PreferenceBar";
 import { useAppSelector } from "./store/hooks";
-import { notifyToaster } from "./helpers";
 
 const App = () => {
   const { displayType } = useAppSelector((state) => state.gameList);
