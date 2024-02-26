@@ -7,7 +7,7 @@ import {
   setCurrentDisplayTab,
   setShowingAddGameModal,
 } from "../store/gameListSlice";
-import { useAppDispatch } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 
 const HeaderMobile = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -30,6 +30,7 @@ const HeaderMobile = () => {
   };
 
   const dispatch = useAppDispatch();
+  const { currentDisplayTab } = useAppSelector((state) => state.gameList);
 
   return (
     <nav className="fixed top-0 w-screen bg-white border-gray-200 dark:bg-gray-900 shadow">
@@ -69,15 +70,15 @@ const HeaderMobile = () => {
         </button>
         <div
           className={`${
-            !isOpen ? "hidden" : ""
+            !isOpen && "hidden"
           } w-full md:block md:w-auto" id="navbar-default`}
         >
           <ul className="gap-4 font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             {navigation.map((item) => (
               <li key={item.name}>
                 <button
-                  className={`${
-                    isItemDisabled(item) && "opacity-50"
+                  className={`${isItemDisabled(item) && "opacity-50"} ${
+                    item.tabName === currentDisplayTab && "bg-gray-700"
                   } block py-2 px-3 text-white rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500`}
                   aria-current="page"
                   onClick={() => handleSelectTab(item)}
