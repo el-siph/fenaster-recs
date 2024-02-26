@@ -1,3 +1,4 @@
+import { Toaster } from "react-hot-toast";
 import "./App.css";
 import GameGrid from "./components/GameGrid";
 import GameList from "./components/GameList";
@@ -5,6 +6,7 @@ import Header from "./components/Header";
 import HeaderMobile from "./components/HeaderMobile";
 import PreferenceBar from "./components/PreferenceBar";
 import { useAppSelector } from "./store/hooks";
+import { notifyToaster } from "./helpers";
 
 const App = () => {
   const { displayType } = useAppSelector((state) => state.gameList);
@@ -24,6 +26,12 @@ const App = () => {
       </div>
       <div className={`hidden sm:block sm:fixed right-0 top-0 sm:w-1/4`}>
         <PreferenceBar />
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            className: "bg-green-400 text-white",
+          }}
+        />
       </div>
     </div>
   );
