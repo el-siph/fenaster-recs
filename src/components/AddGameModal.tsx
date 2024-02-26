@@ -139,6 +139,11 @@ const AddGameModal = () => {
                             required
                             type="number"
                             ref={msrpRef}
+                            onKeyDown={(event) => {
+                              if (!/[0-9]|Backspace/.test(event.key)) {
+                                event.preventDefault();
+                              }
+                            }}
                           />
                           <label className="flex flex-row justify-between">
                             Your Username *
