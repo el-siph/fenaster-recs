@@ -4,7 +4,6 @@ import {
   SortByType,
   setColumnCount,
   setSearchTerm,
-  setShowCompleted,
   setShowOnlyFriends,
   setShowRecsTo,
   setShowingAddGameModal,
@@ -18,7 +17,6 @@ const PreferenceBar = () => {
   const {
     displayType,
     columnCount,
-    showCompleted,
     showOnlyFriends,
     sortBy,
     isShowingAddGameModal,
@@ -28,7 +26,6 @@ const PreferenceBar = () => {
   const dispatch = useAppDispatch();
 
   const columnCountInput = useRef<HTMLInputElement | null>(null);
-  const showCompletedInput = useRef<HTMLInputElement | null>(null);
   const showOnlyFriendsInput = useRef<HTMLInputElement | null>(null);
   const searchTermInput = useRef<HTMLInputElement | null>(null);
   const sortBySelect = useRef<HTMLSelectElement | null>(null);
@@ -38,10 +35,6 @@ const PreferenceBar = () => {
     const newColumnCount = columnCountInput?.current?.value;
     if (newColumnCount !== undefined)
       dispatch(setColumnCount(parseInt(newColumnCount)));
-  };
-
-  const handleShowCompletedChange = () => {
-    dispatch(setShowCompleted(!showCompleted));
   };
 
   const handleShowOnlyFriendsChange = () => {
@@ -119,16 +112,6 @@ const PreferenceBar = () => {
             />
           </label>
         )}
-        <label className="flex cursor-pointer flex-row">
-          <input
-            ref={showCompletedInput}
-            className="mr-1 cursor-pointer"
-            type="checkbox"
-            checked={showCompleted}
-            onChange={handleShowCompletedChange}
-          />
-          Show Completed
-        </label>
         <label className="flex cursor-pointer flex-row">
           <input
             ref={showOnlyFriendsInput}

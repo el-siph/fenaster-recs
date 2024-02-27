@@ -36,10 +36,7 @@ export const getFilteredGames = (games: Game[]): Game[] => {
 };
 
 const filterByCompleted = (filteredGames: Game[]): Game[] => {
-  const { showCompleted, showRecsTo } = store.getState().gameList;
-
-  if (!showCompleted)
-    filteredGames = filteredGames.filter((game) => !game.wasCompleted);
+  const { showRecsTo } = store.getState().gameList;
 
   switch (showRecsTo) {
     case RecsToType.both:
@@ -107,15 +104,22 @@ const filterGamesByDisplayTab = (
   switch (tabName) {
     case DisplayTabs.approved:
       games = games.filter((game) => game.isAuthorized);
+      games = games.filter((game) => !game.wasCompleted);
       break;
     case DisplayTabs.pending:
       games = games.filter((game) => !game.isAuthorized);
+      games = games.filter((game) => !game.wasCompleted);
       break;
     case DisplayTabs.onSale:
       games = games.filter((game) => isDiscountValid(game));
+      games = games.filter((game) => !game.wasCompleted);
+      break;
+    case DisplayTabs.completed:
+      games = games.filter((game) => game.wasCompleted);
       break;
     default:
       games = games.filter((game) => game.isAuthorized);
+      games = games.filter((game) => !game.wasCompleted);
       break;
   }
 
