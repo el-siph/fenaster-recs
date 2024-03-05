@@ -22,6 +22,7 @@ const PreferenceBar = () => {
     isShowingAddGameModal,
     sortResultsDescending,
     showRecsTo,
+    useTestApi,
   } = useAppSelector((state) => state.gameList);
   const dispatch = useAppDispatch();
 
@@ -87,9 +88,7 @@ const PreferenceBar = () => {
 
   return (
     <div className="h-screen w-full px-10 py-10 shadow">
-      {import.meta.env.VITE_USE_TEST_API === "true" && (
-        <p className="font-bold">Test Mode</p>
-      )}
+      {useTestApi && <p className="font-bold">Test Mode</p>}
 
       <button
         onClick={handleSuggestGameClick}
