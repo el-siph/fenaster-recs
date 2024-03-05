@@ -142,7 +142,7 @@ const AddGameModal = () => {
                             type="number"
                             ref={msrpRef}
                             onKeyDown={(event) => {
-                              if (!/[0-9]|Backspace/.test(event.key)) {
+                              if (!/[0-9]|Backspace|\./.test(event.key)) {
                                 event.preventDefault();
                               }
                             }}
