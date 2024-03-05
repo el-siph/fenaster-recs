@@ -1,20 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import { gamesApi } from "./gamesApi";
 import { gameListSlice } from "./gameListSlice";
-import { gamesTestApi } from "./gamesTestApi";
+import { gamesApi } from "./gamesApi";
 
 export const store = configureStore({
   reducer: {
     [gameListSlice.reducerPath]: gameListSlice.reducer,
     [gamesApi.reducerPath]: gamesApi.reducer,
-    [gamesTestApi.reducerPath]: gamesTestApi.reducer,
   },
 
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware()
-      .concat(gamesApi.middleware)
-      .concat(gamesTestApi.middleware),
+    getDefaultMiddleware().concat(gamesApi.middleware),
 });
 
 setupListeners(store.dispatch);
