@@ -87,6 +87,10 @@ const PreferenceBar = () => {
 
   return (
     <div className="h-screen w-full px-10 py-10 shadow">
+      {import.meta.env.VITE_USE_TEST_API === "true" && (
+        <p className="font-bold">Test Mode</p>
+      )}
+
       <button
         onClick={handleSuggestGameClick}
         className={`mb-5 rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100 ${

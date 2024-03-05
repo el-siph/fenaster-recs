@@ -3,12 +3,12 @@ import { classNames, navItem, navigation } from "../constants";
 import { Game } from "../entities/Game";
 import { getFilteredGameCount } from "../filters";
 import { DisplayTabs, setCurrentDisplayTab } from "../store/gameListSlice";
+import { useGetGamesQuery } from "../store/gamesApi";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import useFetchGames from "../hooks/useFetchGames";
 
 const Header = () => {
   const { currentDisplayTab } = useAppSelector((state) => state.gameList);
-  const { data: games } = useFetchGames();
+  const { data: games } = useGetGamesQuery();
   const dispatch = useAppDispatch();
 
   const handleDisplayTabChange = (newTab: DisplayTabs) => {

@@ -1,8 +1,8 @@
 import { Game } from "../entities/Game";
 import { getFilteredGames } from "../filters";
 import { isDiscountValid } from "../helpers";
-import useFetchGames from "../hooks/useFetchGames";
 import { DisplayTabs } from "../store/gameListSlice";
+import { useGetGamesQuery } from "../store/gamesApi";
 import { useAppSelector } from "../store/hooks";
 import ErrorDisplay from "./ErrorDisplay";
 import GameListItem from "./GameListItem";
@@ -13,7 +13,7 @@ const GameList = () => {
     data: games,
     isLoading: isLoadingGames,
     error: isErrorGames,
-  } = useFetchGames();
+  } = useGetGamesQuery();
 
   const { currentDisplayTab } = useAppSelector((state) => state.gameList);
 
