@@ -90,11 +90,15 @@ const GameListItem = ({ game }: Props) => {
             <p className="mt-1 text-xs leading-5 text-gray-500">
               <span
                 className={`
-                ${isDiscountValid(game) && "line-through"}`}
+                ${
+                  isDiscountValid(game) &&
+                  game.msrp !== "Varies" &&
+                  "line-through"
+                }`}
               >
                 {game.msrp}
               </span>
-              {isDiscountValid(game) && (
+              {isDiscountValid(game) && game.msrp !== "Varies" && (
                 <span
                   className={`bold ml-1 mt-1 text-xs leading-5 text-green-500`}
                 >
