@@ -8,6 +8,8 @@ import {
   recByFriend,
 } from "../helpers";
 import GameImage from "./GameImage";
+import { useMarkAuthorizedMutation } from "../store/gamesApi";
+import { LuThumbsUp } from "react-icons/lu";
 
 interface Props {
   game: Game;
@@ -15,6 +17,11 @@ interface Props {
 
 const GameListItem = ({ game }: Props) => {
   const [showNotes, setShowNotes] = useState<boolean>(false);
+  const [markAuthorized] = useMarkAuthorizedMutation();
+
+  const handleAuthorized = () => {
+    markAuthorized(game);
+  };
 
   return (
     <li
@@ -33,6 +40,12 @@ const GameListItem = ({ game }: Props) => {
                   {getLinkIcon(game)}
                 </a>
               </>
+            )}
+            {!game.isAuthorized && (
+              <LuThumbsUp
+                className="ml-2 cursor-pointer"
+                onClick={handleAuthorized}
+              />
             )}
           </p>
           {game.wasCompleted && (
