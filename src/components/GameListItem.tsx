@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
+import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+import { LuThumbsUp } from "react-icons/lu";
+import { MdAddLink } from "react-icons/md";
 import { Game } from "../entities/Game";
 import {
   calculateDiscount,
@@ -7,9 +10,11 @@ import {
   isDiscountValid,
   recByFriend,
 } from "../helpers";
+import {
+  useMarkAuthorizedMutation,
+  useMarkCompleteMutation,
+} from "../store/gamesApi";
 import GameImage from "./GameImage";
-import { useMarkAuthorizedMutation } from "../store/gamesApi";
-import { LuThumbsUp } from "react-icons/lu";
 
 interface Props {
   game: Game;
@@ -18,10 +23,17 @@ interface Props {
 const GameListItem = ({ game }: Props) => {
   const [showNotes, setShowNotes] = useState<boolean>(false);
   const [markAuthorized] = useMarkAuthorizedMutation();
+  const [markComplete] = useMarkCompleteMutation();
 
   const handleAuthorized = () => {
     markAuthorized(game);
   };
+
+  const handleCompleted = () => {
+    markComplete(game);
+  };
+
+  const handleVodLink = () => {};
 
   return (
     <li
@@ -41,12 +53,6 @@ const GameListItem = ({ game }: Props) => {
                 </a>
               </>
             )}
-            {!game.isAuthorized && (
-              <LuThumbsUp
-                className="ml-2 cursor-pointer"
-                onClick={handleAuthorized}
-              />
-            )}
           </p>
           {game.wasCompleted && (
             <p className="flex flex-row items-center text-xs font-semibold leading-6 text-gray-900">
@@ -63,6 +69,21 @@ const GameListItem = ({ game }: Props) => {
               )}
             </p>
           )}
+          <p className="py-1 flex flex-row">
+            {!game.isAuthorized && (
+              <LuThumbsUp
+                className="cursor-pointer mr-1"
+                onClick={handleAuthorized}
+              />
+            )}
+            {!game.wasCompleted && (
+              <IoIosCheckmarkCircleOutline
+                className="cursor-pointer mr-1"
+                onClick={handleCompleted}
+              />
+            )}
+            {!game.vodLink && <MdAddLink className="cursor-pointer" />}
+          </p>
           <p className="mt-1 truncate text-xs leading-5 text-gray-500">
             Rec. by <span className="italic">{game.recBy}</span>
             {game.isSeconded && " (and others)"}
