@@ -3,9 +3,14 @@ import { Game } from "../entities/Game";
 import { Tables } from "../types/supabase";
 import { supabaseClient } from "../supabaseClient";
 
-interface InsertResponse {
+interface InsertGameResponse {
   status: number;
   count: number;
+}
+
+interface InsertVodLinkRequest {
+  game: Game;
+  vodLink: string;
 }
 
 export const gamesApi = createApi({
@@ -40,7 +45,7 @@ export const gamesApi = createApi({
         return await { data, error };
       },
     }),
-    addGame: builder.mutation<InsertResponse, Partial<Game>>({
+    addGame: builder.mutation<InsertGameResponse, Partial<Game>>({
       invalidatesTags: () => [{ type: "Games" as const, id: "LIST" }],
 
       // @ts-expect-error
@@ -69,14 +74,49 @@ export const gamesApi = createApi({
         return { status, count };
       },
     }),
+    markAuthorized: builder.mutation<void, Game>({
+      invalidatesTags: () => [{ type: "Games" as const, id: "LIST" }],
+
+      // @ts-expect-error
+      queryFn: async (game) => {
+        const { status, count, error } = await supabaseClient
+          .from("games")
+          .update({ isAuthorized: true })
+          .eq("id", game.id);
+
+        if (error) throw error;
+        return { status, count };
+      },
+    }),
+
     markComplete: builder.mutation<void, Game>({
-      query: (game) => ({
-        method: "PATCH",
-        url: `games/${game.id}`,
-        body: {
-          ...game,
-        },
-      }),
+      invalidatesTags: () => [{ type: "Games" as const, id: "LIST" }],
+
+      // @ts-expect-error
+      queryFn: async (game) => {
+        const { status, count, error } = await supabaseClient
+          .from("games")
+          .update({ wasCompleted: true })
+          .eq("id", game.id);
+
+        if (error) throw error;
+        return { status, count };
+      },
+    }),
+
+    addVodLink: builder.mutation<void, InsertVodLinkRequest>({
+      invalidatesTags: () => [{ type: "Games" as const, id: "LIST" }],
+
+      // @ts-expect-error
+      queryFn: async (request) => {
+        const { status, count, error } = await supabaseClient
+          .from("games")
+          .update({ vodLink: request.vodLink })
+          .eq("id", request.game.id);
+
+        if (error) throw error;
+        return { status, count };
+      },
     }),
   }),
 });
@@ -86,4 +126,6 @@ export const {
   useAddGameMutation,
   useMarkCompleteMutation,
   useRemoveGameMutation,
+  useAddVodLinkMutation,
+  useMarkAuthorizedMutation,
 } = gamesApi;
