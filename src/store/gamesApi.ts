@@ -56,10 +56,18 @@ export const gamesApi = createApi({
       },
     }),
     removeGame: builder.mutation<void, Game>({
-      query: (game) => ({
-        url: `games/${game.id}`,
-        method: "DELETE",
-      }),
+      invalidatesTags: () => [{ type: "Games" as const, id: "LIST" }],
+
+      // @ts-expect-error
+      queryFn: async (game) => {
+        const { status, count, error } = await supabaseClient
+          .from("games")
+          .delete()
+          .eq("id", game.id);
+
+        if (error) throw error;
+        return { status, count };
+      },
     }),
     markComplete: builder.mutation<void, Game>({
       query: (game) => ({
