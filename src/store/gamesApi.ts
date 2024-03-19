@@ -8,7 +8,7 @@ interface InsertGameResponse {
   count: number;
 }
 
-interface InsertVodLinkRequest {
+export interface InsertVodLinkRequest {
   game: Game;
   vodLink: string;
 }

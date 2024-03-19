@@ -12,6 +12,7 @@ import {
 } from "../store/gameListSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import AddGameModal from "./AddGameModal";
+import AddVodLinkModal from "./AddVodLinkModal";
 
 const PreferenceBar = () => {
   const {
@@ -99,7 +100,9 @@ const PreferenceBar = () => {
         Suggest Game
       </button>
 
+      {/* Modals */}
       <AddGameModal />
+      <AddVodLinkModal />
 
       <div className={`mt-5 flex flex-col gap-1`}>
         {displayType === "grid" && (

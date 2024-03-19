@@ -34,6 +34,7 @@ export interface gameListState {
   activeGame: Game | null;
   useTestApi: boolean;
   isShowingAddGameModal: boolean;
+  isShowingAddVodLinkModal: boolean;
   isShowingUnapproved: boolean;
   sortResultsDescending: boolean;
   currentDisplayTab: DisplayTabs;
@@ -50,6 +51,7 @@ const initialState: gameListState = {
   activeGame: null,
   useTestApi: import.meta.env.VITE_USE_TEST_API === "true",
   isShowingAddGameModal: false,
+  isShowingAddVodLinkModal: false,
   isShowingUnapproved: false,
   sortResultsDescending: true,
   currentDisplayTab: DisplayTabs.approved,
@@ -98,6 +100,9 @@ export const gameListSlice = createSlice({
     setShowingAddGameModal: (state, action: PayloadAction<boolean>) => {
       state.isShowingAddGameModal = action.payload;
     },
+    setShowingAddVodLinkModal: (state, action: PayloadAction<boolean>) => {
+      state.isShowingAddVodLinkModal = action.payload;
+    },
     setShowingUnapproved: (state, action: PayloadAction<boolean>) => {
       state.isShowingUnapproved = action.payload;
     },
@@ -122,6 +127,7 @@ export const {
   setSortBy,
   setActiveGame,
   setShowingAddGameModal,
+  setShowingAddVodLinkModal,
   setShowingUnapproved,
   setSortResultsDecending,
   setCurrentDisplayTab,
