@@ -1,7 +1,10 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useRef } from "react";
 import { notifyToaster } from "../helpers";
-import { setShowingAddVodLinkModal } from "../store/gameListSlice";
+import {
+  setActiveGame,
+  setShowingAddVodLinkModal,
+} from "../store/gameListSlice";
 import { InsertVodLinkRequest, useAddVodLinkMutation } from "../store/gamesApi";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 
@@ -15,6 +18,7 @@ const AddVodLinkModal = () => {
   const vodLinkRef = useRef<HTMLInputElement | null>(null);
 
   const handleCloseModal = () => {
+    dispatch(setActiveGame(null));
     dispatch(setShowingAddVodLinkModal(false));
   };
 
@@ -33,7 +37,7 @@ const AddVodLinkModal = () => {
 
   const handleCancel = () => {
     // reset form elements
-    dispatch(setShowingAddVodLinkModal(false));
+    handleCloseModal();
   };
 
   return (
@@ -73,12 +77,12 @@ const AddVodLinkModal = () => {
                     <div className="mt-1 text-center sm:mx-4 sm:mt-0 sm:text-left w-full">
                       <Dialog.Title
                         as="h3"
-                        className="text-base font-semibold leading-6 text-gray-900 mb-2 sm:mb-10"
+                        className="text-base font-semibold leading-6 text-gray-900 mb-2 sm:mb-4"
                       >
                         Add Link to Video-On-Demand
-                        <p className="text-sm text-gray-400 font-normal mb-1"></p>
-                        <p className="text-sm text-gray-400 font-normal">
-                          Use a permanent video link i.e. YouTube.
+                        <p className="text-sm text-gray-500 font-normal">
+                          Permanent video archive for{" "}
+                          <span className="font-bold">{game?.title}</span>
                         </p>
                       </Dialog.Title>
                       <div>
@@ -91,6 +95,7 @@ const AddVodLinkModal = () => {
                             required
                             type="text"
                             ref={vodLinkRef}
+                            placeholder="e.g. https://www.youtube.com/watch?v=dQw4w9WgXcQ"
                           />
                         </form>
                       </div>
