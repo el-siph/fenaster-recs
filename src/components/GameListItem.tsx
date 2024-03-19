@@ -89,7 +89,7 @@ const GameListItem = ({ game }: Props) => {
                   Approve
                 </a>
               )}
-              {!game.wasCompleted && (
+              {!game.wasCompleted && game.isAuthorized && (
                 <a
                   className="flex flex-row cursor-pointer text-sm hover:underline"
                   onClick={handleCompleted}
