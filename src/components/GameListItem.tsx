@@ -79,21 +79,33 @@ const GameListItem = ({ game }: Props) => {
                 )}
               </p>
             )}
-            <p className="py-1 flex flex-row">
+            <p className="flex flex-col gap-1 my-2 ml-2">
               {!game.isAuthorized && (
-                <LuThumbsUp
-                  className="cursor-pointer mr-1"
+                <a
+                  className="flex flex-row cursor-pointer text-sm hover:underline"
                   onClick={handleAuthorized}
-                />
+                >
+                  <LuThumbsUp className="m-1 ml-0" />
+                  Approve
+                </a>
               )}
               {!game.wasCompleted && (
-                <IoIosCheckmarkCircleOutline
-                  className="cursor-pointer mr-1"
+                <a
+                  className="flex flex-row cursor-pointer text-sm hover:underline"
                   onClick={handleCompleted}
-                />
+                >
+                  <IoIosCheckmarkCircleOutline className="m-1 ml-0" />
+                  Mark Complete
+                </a>
               )}
               {game.wasCompleted && !game.vodLink && (
-                <MdAddLink className="cursor-pointer" onClick={handleVodLink} />
+                <a
+                  className="flex flex-row cursor-pointer text-sm hover:underline"
+                  onClick={handleVodLink}
+                >
+                  <MdAddLink className="m-1 ml-0" />
+                  Add VOD
+                </a>
               )}
             </p>
             <p className="mt-1 truncate text-xs leading-5 text-gray-500">
