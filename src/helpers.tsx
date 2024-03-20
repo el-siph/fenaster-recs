@@ -2,6 +2,8 @@ import { FaExternalLinkAlt, FaSteamSymbol } from "react-icons/fa";
 import { Game } from "./entities/Game";
 import { FriendsOfFenAster } from "./store/gameListSlice";
 import toast from "react-hot-toast";
+import { MD5 } from "./md5";
+import { store } from "./store/store";
 
 export const enum Storefronts {
   Steam,
@@ -72,4 +74,15 @@ function isWithinLast24Hours(date: Date): boolean {
   const oneDayInMillis = staleHourCount * 60 * 60 * 1000;
   const now = Date.now();
   return now - date.getTime() < oneDayInMillis;
+}
+
+export function isValidAdminKey(key: string | null): boolean {
+  if (key === null) return false;
+  const adminKey = import.meta.env.VITE_ADMIN_KEY;
+  return MD5(key) === MD5(adminKey);
+}
+
+export function isInAdminMode(): boolean {
+  const { adminKey } = store.getState().gameList;
+  return isValidAdminKey(adminKey);
 }

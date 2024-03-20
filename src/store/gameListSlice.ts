@@ -34,9 +34,12 @@ export interface gameListState {
   activeGame: Game | null;
   useTestApi: boolean;
   isShowingAddGameModal: boolean;
+  isShowingAddVodLinkModal: boolean;
+  isShowingAdminModal: boolean;
   isShowingUnapproved: boolean;
   sortResultsDescending: boolean;
   currentDisplayTab: DisplayTabs;
+  adminKey: string | null;
 }
 
 const initialState: gameListState = {
@@ -50,9 +53,12 @@ const initialState: gameListState = {
   activeGame: null,
   useTestApi: import.meta.env.VITE_USE_TEST_API === "true",
   isShowingAddGameModal: false,
+  isShowingAddVodLinkModal: false,
+  isShowingAdminModal: false,
   isShowingUnapproved: false,
   sortResultsDescending: true,
   currentDisplayTab: DisplayTabs.approved,
+  adminKey: null,
 };
 
 export const gameListSlice = createSlice({
@@ -91,12 +97,20 @@ export const gameListSlice = createSlice({
     setSortBy: (state, action: PayloadAction<SortByType>) => {
       state.sortBy = action.payload;
     },
-    setActiveGame: (state, action: PayloadAction<Game>) => {
-      if (state.activeGame?.id === action.payload.id) state.activeGame = null;
+    setActiveGame: (state, action: PayloadAction<Game | null>) => {
+      if (!action.payload) state.activeGame = null;
+      else if (state.activeGame?.id === action.payload.id)
+        state.activeGame = null;
       else state.activeGame = action.payload;
     },
     setShowingAddGameModal: (state, action: PayloadAction<boolean>) => {
       state.isShowingAddGameModal = action.payload;
+    },
+    setShowingAddVodLinkModal: (state, action: PayloadAction<boolean>) => {
+      state.isShowingAddVodLinkModal = action.payload;
+    },
+    setShowingAdminModal: (state, action: PayloadAction<boolean>) => {
+      state.isShowingAdminModal = action.payload;
     },
     setShowingUnapproved: (state, action: PayloadAction<boolean>) => {
       state.isShowingUnapproved = action.payload;
@@ -106,6 +120,9 @@ export const gameListSlice = createSlice({
     },
     setCurrentDisplayTab: (state, action: PayloadAction<DisplayTabs>) => {
       state.currentDisplayTab = action.payload;
+    },
+    setAdminKey: (state, action: PayloadAction<string>) => {
+      state.adminKey = action.payload;
     },
   },
 });
@@ -122,7 +139,10 @@ export const {
   setSortBy,
   setActiveGame,
   setShowingAddGameModal,
+  setShowingAddVodLinkModal,
+  setShowingAdminModal,
   setShowingUnapproved,
   setSortResultsDecending,
   setCurrentDisplayTab,
+  setAdminKey,
 } = gameListSlice.actions;

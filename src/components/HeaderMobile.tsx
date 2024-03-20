@@ -2,16 +2,16 @@ import { useState } from "react";
 import { navItem, navigation } from "../constants";
 import { Game } from "../entities/Game";
 import { getFilteredGameCount } from "../filters";
-import useFetchGames from "../hooks/useFetchGames";
 import {
   setCurrentDisplayTab,
   setShowingAddGameModal,
 } from "../store/gameListSlice";
+import { useGetGamesQuery } from "../store/gamesApi";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 
 const HeaderMobile = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { data: games } = useFetchGames();
+  const { data: games } = useGetGamesQuery();
 
   const handleToggleOpen = () => {
     setIsOpen(!isOpen);

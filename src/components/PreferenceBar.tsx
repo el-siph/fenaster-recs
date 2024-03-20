@@ -7,11 +7,15 @@ import {
   setShowOnlyFriends,
   setShowRecsTo,
   setShowingAddGameModal,
+  setShowingAdminModal,
   setSortBy,
   setSortResultsDecending,
 } from "../store/gameListSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import AddGameModal from "./AddGameModal";
+import AddVodLinkModal from "./AddVodLinkModal";
+import AdminKeyModal from "./AdminKeyModal";
+import { isInAdminMode } from "../helpers";
 
 const PreferenceBar = () => {
   const {
@@ -22,6 +26,7 @@ const PreferenceBar = () => {
     isShowingAddGameModal,
     sortResultsDescending,
     showRecsTo,
+    useTestApi,
   } = useAppSelector((state) => state.gameList);
   const dispatch = useAppDispatch();
 
@@ -85,8 +90,27 @@ const PreferenceBar = () => {
     dispatch(setSortResultsDecending(value === "true"));
   };
 
+  const handleAdminLogin = () => {
+    dispatch(setShowingAdminModal(true));
+  };
+
   return (
     <div className="h-screen w-full px-10 py-10 shadow">
+      {useTestApi && <p className="font-bold">Test Mode</p>}
+
+      {!isInAdminMode() && (
+        <button
+          className="opacity-0 hover:opacity-50 fixed right-0 bottom-0 transition-opacity duration-[5000ms] border-gray-500 p-2 cursor-default"
+          onClick={handleAdminLogin}
+        >
+          Login
+        </button>
+      )}
+
+      {isInAdminMode() && (
+        <h2 className="fixed top-1 font-bold">Administrator Mode</h2>
+      )}
+
       <button
         onClick={handleSuggestGameClick}
         className={`mb-5 rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow hover:bg-gray-100 ${
@@ -96,7 +120,10 @@ const PreferenceBar = () => {
         Suggest Game
       </button>
 
+      {/* Modals */}
       <AddGameModal />
+      <AddVodLinkModal />
+      <AdminKeyModal />
 
       <div className={`mt-5 flex flex-col gap-1`}>
         {displayType === "grid" && (

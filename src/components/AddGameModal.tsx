@@ -1,20 +1,17 @@
-import { Transition, Dialog } from "@headlessui/react";
+import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useRef } from "react";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { setShowingAddGameModal } from "../store/gameListSlice";
-import { useTestAddGameMutation } from "../store/gamesTestApi";
-import { useAddGameMutation } from "../store/gamesApi";
 import { Game } from "../entities/Game";
 import { notifyToaster } from "../helpers";
+import { setShowingAddGameModal } from "../store/gameListSlice";
+import { useAddGameMutation } from "../store/gamesApi";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 
 const AddGameModal = () => {
   const dispatch = useAppDispatch();
-  const { useTestApi, isShowingAddGameModal: open } = useAppSelector(
+  const { isShowingAddGameModal: open } = useAppSelector(
     (state) => state.gameList
   );
-  const [addGame] = useTestApi
-    ? useTestAddGameMutation()
-    : useAddGameMutation();
+  const [addGame] = useAddGameMutation();
 
   const titleRef = useRef<HTMLInputElement | null>(null);
   const genreRef = useRef<HTMLInputElement | null>(null);
