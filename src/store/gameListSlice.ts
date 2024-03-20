@@ -35,9 +35,11 @@ export interface gameListState {
   useTestApi: boolean;
   isShowingAddGameModal: boolean;
   isShowingAddVodLinkModal: boolean;
+  isShowingAdminModal: boolean;
   isShowingUnapproved: boolean;
   sortResultsDescending: boolean;
   currentDisplayTab: DisplayTabs;
+  adminKey: string | null;
 }
 
 const initialState: gameListState = {
@@ -52,9 +54,11 @@ const initialState: gameListState = {
   useTestApi: import.meta.env.VITE_USE_TEST_API === "true",
   isShowingAddGameModal: false,
   isShowingAddVodLinkModal: false,
+  isShowingAdminModal: false,
   isShowingUnapproved: false,
   sortResultsDescending: true,
   currentDisplayTab: DisplayTabs.approved,
+  adminKey: null,
 };
 
 export const gameListSlice = createSlice({
@@ -105,6 +109,9 @@ export const gameListSlice = createSlice({
     setShowingAddVodLinkModal: (state, action: PayloadAction<boolean>) => {
       state.isShowingAddVodLinkModal = action.payload;
     },
+    setShowingAdminModal: (state, action: PayloadAction<boolean>) => {
+      state.isShowingAdminModal = action.payload;
+    },
     setShowingUnapproved: (state, action: PayloadAction<boolean>) => {
       state.isShowingUnapproved = action.payload;
     },
@@ -113,6 +120,9 @@ export const gameListSlice = createSlice({
     },
     setCurrentDisplayTab: (state, action: PayloadAction<DisplayTabs>) => {
       state.currentDisplayTab = action.payload;
+    },
+    setAdminKey: (state, action: PayloadAction<string>) => {
+      state.adminKey = action.payload;
     },
   },
 });
@@ -130,7 +140,9 @@ export const {
   setActiveGame,
   setShowingAddGameModal,
   setShowingAddVodLinkModal,
+  setShowingAdminModal,
   setShowingUnapproved,
   setSortResultsDecending,
   setCurrentDisplayTab,
+  setAdminKey,
 } = gameListSlice.actions;

@@ -5,6 +5,7 @@ import {
   calculateDiscount,
   getLinkIcon,
   isDiscountValid,
+  isInAdminMode,
   recByFriend,
 } from "../helpers";
 import GameImage from "./GameImage";
@@ -53,7 +54,7 @@ const GameListItem = ({ game }: Props) => {
               </p>
             )}
 
-            <GameListActions game={game} />
+            {isInAdminMode() && <GameListActions game={game} />}
 
             <p className="mt-1 truncate text-xs leading-5 text-gray-500">
               Rec. by <span className="italic">{game.recBy}</span>
