@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useRef } from "react";
 import { Game } from "../entities/Game";
-import { notifyToaster } from "../helpers";
+import { isInAdminMode, notifyToaster } from "../helpers";
 import { setShowingAddGameModal } from "../store/gameListSlice";
 import { useAddGameMutation } from "../store/gamesApi";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
@@ -50,6 +50,8 @@ const AddGameModal = () => {
       newGame.isAuthorized = true;
       newGame.recBy = newGame.recBy?.substring(1, newGame.recBy.length);
     }
+
+    if (isInAdminMode()) newGame.isAuthorized = true;
 
     addGame(newGame);
     dispatch(setShowingAddGameModal(false));
