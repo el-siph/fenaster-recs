@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useRef } from "react";
 import { Game } from "../entities/Game";
-import { notifyToaster } from "../helpers";
+import { isInAdminMode, notifyToaster } from "../helpers";
 import { setShowingAddGameModal } from "../store/gameListSlice";
 import { useAddGameMutation } from "../store/gamesApi";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
@@ -50,6 +50,8 @@ const AddGameModal = () => {
       newGame.isAuthorized = true;
       newGame.recBy = newGame.recBy?.substring(1, newGame.recBy.length);
     }
+
+    if (isInAdminMode()) newGame.isAuthorized = true;
 
     addGame(newGame);
     dispatch(setShowingAddGameModal(false));
@@ -103,11 +105,18 @@ const AddGameModal = () => {
                       >
                         Suggest a Game
                         <p className="text-sm text-gray-400 font-normal mb-1"></p>
-                        <p className="text-sm text-gray-400 font-normal">
-                          Your suggestion will be subject to review before
-                          approval. Please ensure your game complies with Twitch
-                          TOS and refrains from hateful subject matter.
-                        </p>
+                        {!isInAdminMode() ? (
+                          <p className="text-sm text-gray-400 font-normal">
+                            Your suggestion will be subject to review before
+                            approval. Please ensure your game complies with
+                            Twitch TOS and refrains from hateful subject matter.
+                          </p>
+                        ) : (
+                          <p className="text-sm text-gray-400 font-normal">
+                            As an administrator, your suggestion will be
+                            approved instantly.
+                          </p>
+                        )}
                       </Dialog.Title>
                       <div className="mt-2">
                         <form className="flex flex-col gap-2 sm:gap-4 mb-10 text-sm sm:text-md">
