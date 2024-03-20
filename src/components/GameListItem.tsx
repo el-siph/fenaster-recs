@@ -1,8 +1,5 @@
 import { useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
-import { IoIosCheckmarkCircleOutline } from "react-icons/io";
-import { LuThumbsUp } from "react-icons/lu";
-import { MdAddLink } from "react-icons/md";
 import { Game } from "../entities/Game";
 import {
   calculateDiscount,
@@ -10,39 +7,15 @@ import {
   isDiscountValid,
   recByFriend,
 } from "../helpers";
-import {
-  setActiveGame,
-  setShowingAddVodLinkModal,
-} from "../store/gameListSlice";
-import {
-  useMarkAuthorizedMutation,
-  useMarkCompleteMutation,
-} from "../store/gamesApi";
-import { useAppDispatch } from "../store/hooks";
 import GameImage from "./GameImage";
+import GameListActions from "./GameListActions";
 
 interface Props {
   game: Game;
 }
 
 const GameListItem = ({ game }: Props) => {
-  const dispatch = useAppDispatch();
   const [showNotes, setShowNotes] = useState<boolean>(false);
-  const [markAuthorized] = useMarkAuthorizedMutation();
-  const [markComplete] = useMarkCompleteMutation();
-
-  const handleAuthorized = () => {
-    markAuthorized(game);
-  };
-
-  const handleCompleted = () => {
-    markComplete(game);
-  };
-
-  const handleVodLink = () => {
-    dispatch(setActiveGame(game));
-    dispatch(setShowingAddVodLinkModal(true));
-  };
 
   return (
     <>
@@ -79,35 +52,9 @@ const GameListItem = ({ game }: Props) => {
                 )}
               </p>
             )}
-            <p className="flex flex-col gap-1 my-2 ml-2">
-              {!game.isAuthorized && (
-                <a
-                  className="flex flex-row cursor-pointer text-sm hover:underline"
-                  onClick={handleAuthorized}
-                >
-                  <LuThumbsUp className="m-1 ml-0" />
-                  Approve
-                </a>
-              )}
-              {!game.wasCompleted && game.isAuthorized && (
-                <a
-                  className="flex flex-row cursor-pointer text-sm hover:underline"
-                  onClick={handleCompleted}
-                >
-                  <IoIosCheckmarkCircleOutline className="m-1 ml-0" />
-                  Mark Complete
-                </a>
-              )}
-              {game.wasCompleted && !game.vodLink && (
-                <a
-                  className="flex flex-row cursor-pointer text-sm hover:underline"
-                  onClick={handleVodLink}
-                >
-                  <MdAddLink className="m-1 ml-0" />
-                  Add VOD
-                </a>
-              )}
-            </p>
+
+            <GameListActions game={game} />
+
             <p className="mt-1 truncate text-xs leading-5 text-gray-500">
               Rec. by <span className="italic">{game.recBy}</span>
               {game.isSeconded && " (and others)"}
