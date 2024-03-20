@@ -105,11 +105,18 @@ const AddGameModal = () => {
                       >
                         Suggest a Game
                         <p className="text-sm text-gray-400 font-normal mb-1"></p>
-                        <p className="text-sm text-gray-400 font-normal">
-                          Your suggestion will be subject to review before
-                          approval. Please ensure your game complies with Twitch
-                          TOS and refrains from hateful subject matter.
-                        </p>
+                        {!isInAdminMode() ? (
+                          <p className="text-sm text-gray-400 font-normal">
+                            Your suggestion will be subject to review before
+                            approval. Please ensure your game complies with
+                            Twitch TOS and refrains from hateful subject matter.
+                          </p>
+                        ) : (
+                          <p className="text-sm text-gray-400 font-normal">
+                            As an administrator, your suggestion will be
+                            approved instantly.
+                          </p>
+                        )}
                       </Dialog.Title>
                       <div className="mt-2">
                         <form className="flex flex-col gap-2 sm:gap-4 mb-10 text-sm sm:text-md">
