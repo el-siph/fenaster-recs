@@ -22,6 +22,9 @@ const App = () => {
         <div className="mt-14 sm:mt-0">
           {displayType === "grid" ? <GameGrid /> : <GameList />}
         </div>
+        <div className="hidden sm:show w-3/4 fixed bottom-0 h-10 opacity-50 bg-white sm:flex flex-row justify-center items-center">
+          <p className="">Developed by Siph</p>
+        </div>
       </div>
       <div className={`hidden sm:block sm:fixed right-0 top-0 sm:w-1/4`}>
         <PreferenceBar />
