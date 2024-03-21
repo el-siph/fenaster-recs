@@ -1,7 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Game } from "../entities/Game";
-import { Tables } from "../types/supabase";
+import { isInAdminMode } from "../helpers";
 import { supabaseClient } from "../supabaseClient";
+import { Tables } from "../types/supabase";
 
 interface InsertGameResponse {
   status: number;
@@ -65,13 +66,15 @@ export const gamesApi = createApi({
 
       // @ts-expect-error
       queryFn: async (game) => {
-        const { status, count, error } = await supabaseClient
-          .from("games")
-          .delete()
-          .eq("id", game.id);
+        if (isInAdminMode()) {
+          const { status, count, error } = await supabaseClient
+            .from("games")
+            .delete()
+            .eq("id", game.id);
 
-        if (error) throw error;
-        return { status, count };
+          if (error) throw error;
+          return { status, count };
+        }
       },
     }),
     markAuthorized: builder.mutation<void, Game>({
@@ -79,13 +82,15 @@ export const gamesApi = createApi({
 
       // @ts-expect-error
       queryFn: async (game) => {
-        const { status, count, error } = await supabaseClient
-          .from("games")
-          .update({ isAuthorized: true })
-          .eq("id", game.id);
+        if (isInAdminMode()) {
+          const { status, count, error } = await supabaseClient
+            .from("games")
+            .update({ isAuthorized: true })
+            .eq("id", game.id);
 
-        if (error) throw error;
-        return { status, count };
+          if (error) throw error;
+          return { status, count };
+        }
       },
     }),
 
@@ -94,13 +99,15 @@ export const gamesApi = createApi({
 
       // @ts-expect-error
       queryFn: async (game) => {
-        const { status, count, error } = await supabaseClient
-          .from("games")
-          .update({ wasCompleted: true })
-          .eq("id", game.id);
+        if (isInAdminMode()) {
+          const { status, count, error } = await supabaseClient
+            .from("games")
+            .update({ wasCompleted: true })
+            .eq("id", game.id);
 
-        if (error) throw error;
-        return { status, count };
+          if (error) throw error;
+          return { status, count };
+        }
       },
     }),
 
@@ -109,13 +116,15 @@ export const gamesApi = createApi({
 
       // @ts-expect-error
       queryFn: async (request) => {
-        const { status, count, error } = await supabaseClient
-          .from("games")
-          .update({ vodLink: request.vodLink })
-          .eq("id", request.game.id);
+        if (isInAdminMode()) {
+          const { status, count, error } = await supabaseClient
+            .from("games")
+            .update({ vodLink: request.vodLink })
+            .eq("id", request.game.id);
 
-        if (error) throw error;
-        return { status, count };
+          if (error) throw error;
+          return { status, count };
+        }
       },
     }),
   }),
