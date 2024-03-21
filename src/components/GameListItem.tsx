@@ -25,7 +25,7 @@ const GameListItem = ({ game }: Props) => {
           recByFriend(game) && "bg-cyan-100 hover:bg-cyan-200"
         }`}
       >
-        <div className="flex min-w-0 gap-x-4">
+        <div className="flex min-w-0 gap-x-4 sm:gap-x-8">
           <GameImage game={game} />
           <div className="min-w-0 flex-auto">
             <p className="flex flex-row items-center text-sm font-semibold leading-6 text-gray-900">
