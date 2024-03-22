@@ -11,14 +11,14 @@ const GameImage = ({ game }: Props) => {
 
   if (gameUrl === null)
     return (
-      <div className="w-[135px] h-[63px] sm:w-[250px] sm:h-auto flex flex-row justify-center">
+      <div className="w-[135px] h-[63px] sm:w-[250px] sm:h-[117px] flex flex-row justify-center">
         <CiImageOff className="h-full w-[50px]" />
       </div>
     );
   else
     return (
       <img
-        className="w-[135px] h-[63px] sm:w-[250px] sm:h-auto flex-none bg-gray-50"
+        className="w-[135px] h-[63px] sm:w-[250px] sm:h-[117px] flex-none bg-gray-50"
         src={gameUrl}
         alt={`cover art for ${game.title}`}
       />
