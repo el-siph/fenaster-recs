@@ -3,6 +3,7 @@ import {
   RecsToType,
   SortByType,
   setColumnCount,
+  setHideEnglishVO,
   setSearchTerm,
   setShowOnlyFriends,
   setShowRecsTo,
@@ -22,6 +23,7 @@ const PreferenceBar = () => {
     displayType,
     columnCount,
     showOnlyFriends,
+    hideEnglishVO,
     sortBy,
     isShowingAddGameModal,
     sortResultsDescending,
@@ -44,6 +46,10 @@ const PreferenceBar = () => {
 
   const handleShowOnlyFriendsChange = () => {
     dispatch(setShowOnlyFriends(!showOnlyFriends));
+  };
+
+  const handleHideEnglishVOChange = () => {
+    dispatch(setHideEnglishVO(!hideEnglishVO));
   };
 
   const handleSearchTermChange = () => {
@@ -148,6 +154,15 @@ const PreferenceBar = () => {
             onChange={handleShowOnlyFriendsChange}
           />
           Show Friend Recs Only
+        </label>
+        <label className="flex cursor-pointer flex-row">
+          <input
+            className="mr-1 cursor-pointer"
+            type="checkbox"
+            checked={hideEnglishVO}
+            onChange={handleHideEnglishVOChange}
+          />
+          Hide Games With English VO
         </label>
         <label className="mt-10 flex flex-row">Search By Title</label>
         <input

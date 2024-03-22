@@ -1,5 +1,10 @@
 import { Game } from "./entities/Game";
-import { getPriceFloat, isDiscountValid, recByFriend } from "./helpers";
+import {
+  getPriceFloat,
+  isDiscountValid,
+  isHasEnglishVO,
+  recByFriend,
+} from "./helpers";
 import { DisplayTabs, RecsToType, SortByType } from "./store/gameListSlice";
 import { store } from "./store/store";
 
@@ -7,6 +12,7 @@ export const getFilteredGames = (games: Game[]): Game[] => {
   const {
     showRecsBy,
     showOnlyFriends,
+    hideEnglishVO,
     searchTerm,
     sortResultsDescending,
     currentDisplayTab,
@@ -24,6 +30,9 @@ export const getFilteredGames = (games: Game[]): Game[] => {
 
   if (showOnlyFriends)
     filteredGames = filteredGames.filter((game) => recByFriend(game));
+
+  if (hideEnglishVO)
+    filteredGames = filteredGames.filter((game) => isHasEnglishVO(game));
 
   if (searchTerm.length > 1)
     filteredGames = filteredGames.filter((game) =>

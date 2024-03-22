@@ -76,6 +76,11 @@ function isWithinLast24Hours(date: Date): boolean {
   return now - date.getTime() < oneDayInMillis;
 }
 
+export function isHasEnglishVO(game: Game): boolean {
+  if (!game.hasEnglishVO) return false;
+  return ["false", "no"].includes(game.hasEnglishVO.toLowerCase());
+}
+
 export function isValidAdminKey(key: string | null): boolean {
   if (key === null) return false;
   const adminKey = import.meta.env.VITE_ADMIN_KEY;

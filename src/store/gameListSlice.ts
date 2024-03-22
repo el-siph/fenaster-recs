@@ -29,6 +29,7 @@ export interface gameListState {
   showRecsTo: RecsToType;
   showRecsBy: string[];
   showOnlyFriends: boolean;
+  hideEnglishVO: boolean;
   searchTerm: string;
   sortBy: SortByType;
   activeGame: Game | null;
@@ -48,6 +49,7 @@ const initialState: gameListState = {
   showRecsTo: RecsToType.both,
   showRecsBy: [],
   showOnlyFriends: false,
+  hideEnglishVO: false,
   searchTerm: "",
   sortBy: import.meta.env.VITE_DEFAULT_SORT_BY,
   activeGame: null,
@@ -90,6 +92,9 @@ export const gameListSlice = createSlice({
     },
     setShowOnlyFriends: (state, action: PayloadAction<boolean>) => {
       state.showOnlyFriends = action.payload;
+    },
+    setHideEnglishVO: (state, action: PayloadAction<boolean>) => {
+      state.hideEnglishVO = action.payload;
     },
     setSearchTerm: (state, action: PayloadAction<string>) => {
       state.searchTerm = action.payload;
@@ -135,6 +140,7 @@ export const {
   addShowRecsBy,
   removeShowRecsBy,
   setShowOnlyFriends,
+  setHideEnglishVO,
   setSearchTerm,
   setSortBy,
   setActiveGame,

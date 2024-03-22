@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { AiOutlineStop } from "react-icons/ai";
 import { FaCheckCircle } from "react-icons/fa";
+import { FcCheckmark } from "react-icons/fc";
 import { Game } from "../entities/Game";
 import {
   calculateDiscount,
   getLinkIcon,
   isDiscountValid,
+  isHasEnglishVO,
   isInAdminMode,
   recByFriend,
 } from "../helpers";
@@ -67,6 +70,13 @@ const GameListItem = ({ game }: Props) => {
             )}
             <p className="mt-1 truncate text-xs leading-5 text-gray-500">
               {game.userScore}
+            </p>
+
+            <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+              <span className="flex flex-row gap-1 items-center">
+                No English VO?{" "}
+                {isHasEnglishVO(game) ? <FcCheckmark /> : <AiOutlineStop />}
+              </span>
             </p>
             {showNotes && game.notes && (
               <p className="mt-1 truncate text-xs leading-5 text-gray-500">
