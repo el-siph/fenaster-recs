@@ -5,6 +5,7 @@ import { isInAdminMode, notifyToaster } from "../helpers";
 import { setShowingAddGameModal } from "../store/gameListSlice";
 import { useAddGameMutation } from "../store/gamesApi";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
+import badWordsFilter from "bad-words";
 
 const AddGameModal = () => {
   const dispatch = useAppDispatch();
@@ -29,18 +30,21 @@ const AddGameModal = () => {
 
   const handleSubmit = () => {
     const autoApproveSymbol = import.meta.env.VITE_AUTO_APPROVE_SYMBOL;
+    const bwFilter = new badWordsFilter();
 
     const newGame: Partial<Game> = {
-      title: titleRef.current?.value,
-      genre: genreRef.current?.value,
+      title: bwFilter.clean(titleRef.current?.value!),
+      genre: bwFilter.clean(genreRef.current?.value!),
       msrp: `$${msrpRef.current?.value}`,
-      recBy: recByRef.current?.value,
+      recBy: bwFilter.clean(recByRef.current?.value!),
       recTo: recToRef.current?.value,
       isSeconded: false,
       userScore: userScoreRef.current?.value,
       hasEnglishVO: hasEnglishVORef.current?.value,
-      notes: notesRef.current?.value,
-      storeLink: storeLinkRef.current?.value,
+      notes: notesRef.current?.value.length
+        ? bwFilter.clean(notesRef.current?.value)
+        : "",
+      storeLink: bwFilter.clean(storeLinkRef.current?.value!),
       wasCompleted: false,
       vodLink: "",
       isAuthorized: false,
