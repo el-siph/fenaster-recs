@@ -2,7 +2,15 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Game } from "../entities/Game";
 
 type DisplayType = "grid" | "table";
-export const FriendsOfFenAster = ["Osiria", "Kuroyuriis"];
+export const FriendsOfFenAster = [
+  "Osiria",
+  "Kuroyuriis",
+  "NotAndy",
+  "roseline_",
+  "izyuumi",
+  "xyooj_song",
+  "miraiwomita",
+];
 
 export const enum SortByType {
   "title",
