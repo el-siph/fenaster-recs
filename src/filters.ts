@@ -25,7 +25,7 @@ export const getFilteredGames = (games: Game[]): Game[] => {
 
   if (showRecsBy.length > 0)
     filteredGames = filteredGames.filter((game) =>
-      showRecsBy.includes(game.recBy)
+      showRecsBy.includes(game.recBy),
     );
 
   if (showOnlyFriends)
@@ -36,7 +36,7 @@ export const getFilteredGames = (games: Game[]): Game[] => {
 
   if (searchTerm.length > 1)
     filteredGames = filteredGames.filter((game) =>
-      game.title.toLowerCase().includes(searchTerm.toLowerCase())
+      game.title.toLowerCase().includes(searchTerm.toLowerCase()),
     );
 
   if (!sortResultsDescending) filteredGames = filteredGames.reverse();
@@ -51,13 +51,24 @@ const filterByCompleted = (filteredGames: Game[]): Game[] => {
     case RecsToType.both:
       break;
     case RecsToType.aster:
+      filteredGames = filteredGames.filter(
+        (game) => !game.recTo.toLowerCase().includes(RecsToType.fen.toString()),
+      );
+      break;
+    case RecsToType.asterOnly:
       filteredGames = filteredGames.filter((game) =>
-        game.recTo.toLowerCase().includes(RecsToType.aster.toString())
+        game.recTo.toLowerCase().includes(RecsToType.aster.toString()),
       );
       break;
     case RecsToType.fen:
+      filteredGames = filteredGames.filter(
+        (game) =>
+          !game.recTo.toLowerCase().includes(RecsToType.aster.toString()),
+      );
+      break;
+    case RecsToType.fenOnly:
       filteredGames = filteredGames.filter((game) =>
-        game.recTo.toLowerCase().includes(RecsToType.fen.toString())
+        game.recTo.toLowerCase().includes(RecsToType.fen.toString()),
       );
       break;
     default:
@@ -73,12 +84,12 @@ const sortGamesBy = (filteredGames: Game[]): Game[] => {
   switch (sortBy) {
     case SortByType.title:
       filteredGames = filteredGames.sort((a, b) =>
-        a.title.toLowerCase().localeCompare(b.title.toLowerCase())
+        a.title.toLowerCase().localeCompare(b.title.toLowerCase()),
       );
       break;
     case SortByType.genre:
       filteredGames = filteredGames.sort((a, b) =>
-        a.genre.toLowerCase().localeCompare(b.genre!.toLowerCase())
+        a.genre.toLowerCase().localeCompare(b.genre!.toLowerCase()),
       );
       break;
     case SortByType.price:
@@ -90,7 +101,7 @@ const sortGamesBy = (filteredGames: Game[]): Game[] => {
       break;
     default:
       filteredGames = filteredGames.sort((a, b) =>
-        a.title.toLowerCase().localeCompare(b.title.toLowerCase())
+        a.title.toLowerCase().localeCompare(b.title.toLowerCase()),
       );
       break;
   }
@@ -100,7 +111,7 @@ const sortGamesBy = (filteredGames: Game[]): Game[] => {
 
 export const getFilteredGameCount = (
   tabName: DisplayTabs,
-  games: Game[] | null
+  games: Game[] | null,
 ): number => {
   if (games) return filterGamesByDisplayTab(tabName, games).length;
   else return 0;
@@ -108,7 +119,7 @@ export const getFilteredGameCount = (
 
 const filterGamesByDisplayTab = (
   tabName: DisplayTabs,
-  games: Game[]
+  games: Game[],
 ): Game[] => {
   switch (tabName) {
     case DisplayTabs.approved:

@@ -85,6 +85,16 @@ const PreferenceBar = () => {
       RecsToType.fen.toLowerCase().toString()
     )
       newRecTo = RecsToType.fen;
+    else if (
+      recToSelect.current?.value?.toLowerCase().toString() ===
+      RecsToType.asterOnly.toLowerCase().toString()
+    )
+      newRecTo = RecsToType.asterOnly;
+    else if (
+      recToSelect.current?.value?.toLowerCase().toString() ===
+      RecsToType.fenOnly.toLowerCase().toString()
+    )
+      newRecTo = RecsToType.fenOnly;
     dispatch(setShowRecsTo(newRecTo ?? RecsToType.both));
   };
 
@@ -180,7 +190,9 @@ const PreferenceBar = () => {
         >
           <option value={RecsToType.both}>Both</option>
           <option value={RecsToType.aster}>Aster</option>
+          <option value={RecsToType.asterOnly}>Only Aster</option>
           <option value={RecsToType.fen}>Fenrir</option>
+          <option value={RecsToType.fenOnly}>Only Fenrir</option>
         </select>
         <label>Sort By</label>
         <select

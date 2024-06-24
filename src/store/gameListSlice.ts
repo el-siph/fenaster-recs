@@ -13,7 +13,9 @@ export const enum SortByType {
 export const enum RecsToType {
   both = "both",
   aster = "aster",
+  asterOnly = "aster-only",
   fen = "fen",
+  fenOnly = "fen-only",
 }
 
 export const enum DisplayTabs {
@@ -87,7 +89,7 @@ export const gameListSlice = createSlice({
     },
     removeShowRecsBy: (state, action: PayloadAction<string>) => {
       state.showRecsBy = state.showRecsBy.filter(
-        (person: string) => person !== action.payload
+        (person: string) => person !== action.payload,
       );
     },
     setShowOnlyFriends: (state, action: PayloadAction<boolean>) => {
