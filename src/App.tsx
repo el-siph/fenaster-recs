@@ -23,7 +23,12 @@ const App = () => {
           {displayType === "grid" ? <GameGrid /> : <GameList />}
         </div>
         <div className="hidden sm:show w-3/4 fixed bottom-0 h-10 opacity-50 bg-white sm:flex flex-row justify-center items-center">
-          <p className="">Developed by Siph</p>
+          <p className="">
+            Developed by{" "}
+            <a href="https://github.com/el-siph/fenaster-recs" target="_blank">
+              Siph
+            </a>
+          </p>
         </div>
       </div>
       <div className={`hidden sm:block sm:fixed right-0 top-0 sm:w-1/4`}>
