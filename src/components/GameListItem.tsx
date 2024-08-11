@@ -48,10 +48,13 @@ const GameListItem = ({ game }: Props) => {
                 {game.vodLink && (
                   <a
                     href={game.vodLink}
-                    className="flex flex-row"
+                    className="flex flex-row pl-1"
                     target="_blank"
                   >
-                    <span className="ml-1 underline">(Watch)</span>
+                    {"  "}-
+                    <span className="ml-1 underline hover:no-underline">
+                      Watch Now
+                    </span>
                   </a>
                 )}
               </p>

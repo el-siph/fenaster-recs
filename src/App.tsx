@@ -25,7 +25,11 @@ const App = () => {
         <div className="hidden sm:show w-3/4 fixed bottom-0 h-10 opacity-50 bg-white sm:flex flex-row justify-center items-center">
           <p className="">
             Developed by{" "}
-            <a href="https://github.com/el-siph/fenaster-recs" target="_blank">
+            <a
+              href="https://github.com/el-siph/fenaster-recs"
+              className="underline hover:no-underline"
+              target="_blank"
+            >
               Siph
             </a>
           </p>
