@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { navItem, navigation } from "../constants";
 import { Game } from "../entities/Game";
 import { getFilteredGameCount } from "../filters";
 import {
+  RecsToType,
   setCurrentDisplayTab,
   setShowingAddGameModal,
+  setShowRecsTo,
 } from "../store/gameListSlice";
 import { useGetGamesQuery } from "../store/gamesApi";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
@@ -30,7 +32,42 @@ const HeaderMobile = () => {
   };
 
   const dispatch = useAppDispatch();
-  const { currentDisplayTab } = useAppSelector((state) => state.gameList);
+  const { currentDisplayTab,
+    showRecsTo
+  } = useAppSelector((state) => state.gameList);
+
+  const recToSelect = useRef<HTMLSelectElement | null>(null);
+
+  const handleRecsByChange = () => {
+    let newRecTo;
+    if (
+      recToSelect.current?.value?.toLowerCase().toString() ===
+      RecsToType.both.toLowerCase().toString()
+    )
+      newRecTo = RecsToType.both;
+    else if (
+      recToSelect.current?.value?.toLowerCase().toString() ===
+      RecsToType.aster.toLowerCase().toString()
+    )
+      newRecTo = RecsToType.aster;
+    else if (
+      recToSelect.current?.value?.toLowerCase().toString() ===
+      RecsToType.fen.toLowerCase().toString()
+    )
+      newRecTo = RecsToType.fen;
+    else if (
+      recToSelect.current?.value?.toLowerCase().toString() ===
+      RecsToType.asterOnly.toLowerCase().toString()
+    )
+      newRecTo = RecsToType.asterOnly;
+    else if (
+      recToSelect.current?.value?.toLowerCase().toString() ===
+      RecsToType.fenOnly.toLowerCase().toString()
+    )
+      newRecTo = RecsToType.fenOnly;
+    dispatch(setShowRecsTo(newRecTo ?? RecsToType.both));
+  };
+
 
   return (
     <nav className="fixed top-0 w-screen bg-white border-gray-200 dark:bg-gray-900 shadow">
@@ -69,17 +106,15 @@ const HeaderMobile = () => {
           </svg>
         </button>
         <div
-          className={`${
-            !isOpen && "hidden"
-          } w-full md:block md:w-auto" id="navbar-default`}
+          className={`${!isOpen && "hidden"
+            } w-full md:block md:w-auto" id="navbar-default`}
         >
           <ul className="gap-4 font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             {navigation.map((item) => (
               <li key={item.name}>
                 <button
-                  className={`${isItemDisabled(item) && "opacity-50"} ${
-                    item.tabName === currentDisplayTab && "bg-gray-700"
-                  } block py-2 px-3 text-white rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500`}
+                  className={`${isItemDisabled(item) && "opacity-50"} ${item.tabName === currentDisplayTab && "bg-gray-700"
+                    } block py-2 px-3 text-white rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500`}
                   aria-current="page"
                   onClick={() => handleSelectTab(item)}
                   disabled={isItemDisabled(item)}
@@ -99,6 +134,20 @@ const HeaderMobile = () => {
               >
                 Suggest a Game
               </button>
+            </li>
+            <li>
+              <select
+                className="focus:shadow-outline block appearance-none rounded border border-gray-400 bg-white px-4 py-2 pr-8 leading-tight shadow hover:border-gray-500 focus:outline-none"
+                value={showRecsTo}
+                onChange={handleRecsByChange}
+                ref={recToSelect}
+              >
+                <option value={RecsToType.both}>For Both</option>
+                <option value={RecsToType.aster}>For Aster</option>
+                <option value={RecsToType.asterOnly}>Only for Aster</option>
+                <option value={RecsToType.fen}>For Fenrir</option>
+                <option value={RecsToType.fenOnly}>Only for Fenrir</option>
+              </select>
             </li>
           </ul>
         </div>
