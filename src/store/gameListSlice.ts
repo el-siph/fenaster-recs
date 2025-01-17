@@ -31,6 +31,7 @@ export const enum DisplayTabs {
   pending,
   onSale,
   completed,
+  rejected
 }
 
 export interface gameListState {

@@ -10,6 +10,7 @@ export const navigation = [
   { name: "Approved", tabName: DisplayTabs.approved, disabled: false },
   { name: "Completed", tabName: DisplayTabs.completed, disabled: false },
   { name: "Pending", tabName: DisplayTabs.pending, disabled: false },
+  { name: "Rejected", tabName: DisplayTabs.rejected, disabled: false },
   { name: "On Sale", tabName: DisplayTabs.onSale, disabled: false },
 ] as navItem[];
 

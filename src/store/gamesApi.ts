@@ -61,7 +61,7 @@ export const gamesApi = createApi({
         return { status, count };
       },
     }),
-    removeGame: builder.mutation<void, Game>({
+    hideGame: builder.mutation<void, Game>({
       invalidatesTags: () => [{ type: "Games" as const, id: "LIST" }],
 
       // @ts-expect-error
@@ -69,7 +69,7 @@ export const gamesApi = createApi({
         if (isInAdminMode()) {
           const { status, count, error } = await supabaseClient
             .from("games")
-            .delete()
+            .update({ isHidden: true })
             .eq("id", game.id);
 
           if (error) throw error;
@@ -134,7 +134,7 @@ export const {
   useGetGamesQuery,
   useAddGameMutation,
   useMarkCompleteMutation,
-  useRemoveGameMutation,
+  useHideGameMutation,
   useAddVodLinkMutation,
   useMarkAuthorizedMutation,
 } = gamesApi;
