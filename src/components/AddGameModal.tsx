@@ -132,6 +132,7 @@ const AddGameModal = () => {
                             required
                             type="text"
                             ref={titleRef}
+                            maxLength={48}
                           />
                           <label className="flex flex-row justify-between">
                             Genre *
@@ -142,6 +143,7 @@ const AddGameModal = () => {
                             type="text"
                             ref={genreRef}
                             placeholder="JRPG, Visual Novel, Action, etc."
+                            maxLength={48}
                           />
                           <label className="flex flex-row justify-between">
                             Retail Price (in USD) *
@@ -165,6 +167,7 @@ const AddGameModal = () => {
                             required
                             type="text"
                             ref={recByRef}
+                            maxLength={48}
                           />
                           <label className="flex flex-row justify-between">
                             Purchase/Download Link (Steam Page, etc.) *
