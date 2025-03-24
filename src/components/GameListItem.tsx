@@ -24,9 +24,8 @@ const GameListItem = ({ game }: Props) => {
   return (
     <>
       <li
-        className={`flex justify-between gap-x-6 p-5 transition-all ease-in hover:bg-gray-100 hover:shadow-lg ${
-          recByFriend(game) && "bg-cyan-100 hover:bg-cyan-200"
-        }`}
+        className={`flex justify-between gap-x-6 p-5 transition-all ease-in hover:bg-gray-100 hover:shadow-lg ${recByFriend(game) && "bg-cyan-100 hover:bg-cyan-200"
+          }`}
       >
         <div className="flex min-w-0 gap-x-4 sm:gap-x-8">
           <GameImage game={game} />
@@ -109,11 +108,10 @@ const GameListItem = ({ game }: Props) => {
               <p className="mt-1 text-xs leading-5 text-gray-500">
                 <span
                   className={`
-                ${
-                  isDiscountValid(game) &&
-                  game.msrp !== "Varies" &&
-                  "line-through"
-                }`}
+                ${isDiscountValid(game) &&
+                    game.msrp !== "Varies" &&
+                    "line-through"
+                    }`}
                 >
                   {game.msrp}
                 </span>

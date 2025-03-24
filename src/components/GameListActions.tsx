@@ -7,7 +7,7 @@ import {
 import {
   useMarkAuthorizedMutation,
   useMarkCompleteMutation,
-  useRemoveGameMutation,
+  useHideGameMutation,
 } from "../store/gamesApi";
 import { useAppDispatch } from "../store/hooks";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
@@ -21,14 +21,14 @@ const GameListActions = ({ game }: Props) => {
   const dispatch = useAppDispatch();
   const [markAuthorized] = useMarkAuthorizedMutation();
   const [markComplete] = useMarkCompleteMutation();
-  const [markDeleted] = useRemoveGameMutation();
+  const [markHidden] = useHideGameMutation();
 
   const handleAuthorized = () => {
     markAuthorized(game);
   };
 
-  const handleRejected = () => {
-    markDeleted(game);
+  const handleHidden = () => {
+    markHidden(game);
   };
 
   const handleCompleted = () => {
@@ -53,7 +53,7 @@ const GameListActions = ({ game }: Props) => {
           </a>
           <a
             className="flex flex-row cursor-pointer text-sm hover:underline"
-            onClick={handleRejected}
+            onClick={handleHidden}
           >
             <LuThumbsDown className="m-1 ml-0" />
             Reject
