@@ -3,11 +3,14 @@ import { Fragment, useRef } from "react";
 import { Game } from "../entities/Game";
 import { isInAdminMode, notifyToaster } from "../helpers";
 import { setShowingAddGameModal } from "../store/gameListSlice";
-import { useAddGameMutation } from "../store/gamesApi";
+import { useAddGameMutation, useGetGamesQuery } from "../store/gamesApi";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import badWordsFilter from "bad-words";
 
 const AddGameModal = () => {
+  const { data } = useGetGamesQuery();
+  const games = data as Game[];
+
   const dispatch = useAppDispatch();
   const { isShowingAddGameModal: open } = useAppSelector(
     (state) => state.gameList
@@ -29,6 +32,7 @@ const AddGameModal = () => {
   };
 
   const handleSubmit = () => {
+    let rejectEntry = false;
     const autoApproveSymbol = import.meta.env.VITE_AUTO_APPROVE_SYMBOL;
     const bwFilter = new badWordsFilter();
 
@@ -50,6 +54,17 @@ const AddGameModal = () => {
       isAuthorized: false,
     };
 
+    // check if newGame already exists
+    games.map((g) => {
+      if (
+        g.title.toLowerCase().trim() === newGame.title?.toLowerCase().trim() ||
+        g.storeLink?.split("app/")[1]?.substring(0, 7) ===
+          newGame.storeLink?.split("app/")[1]?.substring(0, 7)
+      ) {
+        rejectEntry = true;
+      }
+    });
+
     if (newGame.recBy?.substring(0, 1) === autoApproveSymbol) {
       newGame.isAuthorized = true;
       newGame.recBy = newGame.recBy?.substring(1, newGame.recBy.length);
@@ -57,10 +72,13 @@ const AddGameModal = () => {
 
     if (isInAdminMode()) newGame.isAuthorized = true;
 
-    addGame(newGame);
+    if (rejectEntry) {
+      notifyToaster("Error: your suggestion already exists.");
+    } else {
+      addGame(newGame);
+      notifyToaster("Your suggestion has been added!");
+    }
     dispatch(setShowingAddGameModal(false));
-
-    notifyToaster("Your suggestion has been added!");
   };
 
   const handleCancel = () => {
