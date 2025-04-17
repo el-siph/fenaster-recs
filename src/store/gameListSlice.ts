@@ -31,7 +31,7 @@ export const enum DisplayTabs {
   pending,
   onSale,
   completed,
-  rejected
+  rejected,
 }
 
 export interface gameListState {
@@ -98,7 +98,7 @@ export const gameListSlice = createSlice({
     },
     removeShowRecsBy: (state, action: PayloadAction<string>) => {
       state.showRecsBy = state.showRecsBy.filter(
-        (person: string) => person !== action.payload,
+        (person: string) => person !== action.payload
       );
     },
     setShowOnlyFriends: (state, action: PayloadAction<boolean>) => {

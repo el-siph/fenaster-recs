@@ -7,7 +7,9 @@ import { useGetGamesQuery } from "../store/gamesApi";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 
 const Header = () => {
-  const { currentDisplayTab } = useAppSelector((state) => state.gameList);
+  const { currentDisplayTab, searchTerm } = useAppSelector(
+    (state) => state.gameList
+  );
   const { data: games } = useGetGamesQuery();
   const dispatch = useAppDispatch();
 
@@ -37,7 +39,8 @@ const Header = () => {
                         disabled={isItemDisabled(item)}
                         onClick={() => handleDisplayTabChange(item.tabName)}
                         className={classNames(
-                          item.tabName === currentDisplayTab
+                          item.tabName === currentDisplayTab &&
+                            !searchTerm.length
                             ? "bg-blue-500 text-white"
                             : "text-gray-100 hover:bg-blue-500 hover:text-white",
                           "rounded-md px-3 py-2 text-sm font-medium",
